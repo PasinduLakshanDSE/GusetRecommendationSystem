@@ -1,0 +1,237 @@
+Destination,District,Review_Count,Primary_Category,Nature_Score,Culture_Score,Adventure_Score,Food_Score,Wellness_Score,Entertainment_Score,Shopping_Score,Family_Score
+Abarana Ella,Hambantota,16,Nature,0.278,0.0,0.0,0.0,0.222,0.222,0.0,0.111
+Aradunu Falls,Badulla,40,Nature,0.389,0.0,0.154,0.0,0.0,0.111,0.0,0.111
+Arankele archaeological site,Kurunagela,49,Wellness,0.167,0.429,0.0,0.0,0.556,0.111,0.0,0.0
+Asgiriya Raja Maha Viharaya,Gampaha,137,Wellness,0.5,0.571,0.538,0.0,0.667,0.0,0.0,0.111
+Atha Mala Ella,Matara,86,Nature,0.5,0.0,0.154,0.0,0.222,0.111,0.111,0.111
+Athkanda raja maha viharaya,Kurunagela,141,Wellness,0.222,0.571,0.154,0.077,0.889,0.111,0.0,0.0
+Athugala viharaya,Kurunagela,242,Wellness,0.611,0.286,0.385,0.0,0.778,0.111,0.0,0.222
+Attidiya Bird Sanctuary,Colombo,207,Nature,0.778,0.143,0.308,0.385,0.778,0.111,0.222,0.444
+Badulla Alugolla Samadhi Buddha,Badulla,24,Wellness,0.389,0.071,0.154,0.0,0.556,0.0,0.0,0.0
+Badulla Dutch Fort,Badulla,91,Culture,0.111,0.643,0.077,0.077,0.111,0.0,0.222,0.222
+Badulla Katharagama Devalaya,Badulla,55,Wellness,0.0,0.429,0.0,0.0,0.444,0.111,0.0,0.0
+Balakaduwa ella waterfall,Matale,10,Nature,0.333,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+Bambarakiri ella,Matale,754,Wellness,0.778,0.214,0.462,0.154,0.889,0.333,0.222,0.667
+Barberyn Island,Kalutara,47,Nature,0.333,0.071,0.308,0.0,0.333,0.111,0.111,0.222
+Bataatha Agro Technology and Tourism Park,Hambantota,232,Wellness,0.5,0.143,0.154,0.615,0.778,0.222,0.222,0.667
+Batadobalena,Rathnapura,98,Adventure,0.556,0.429,0.769,0.0,0.667,0.333,0.222,0.222
+Beddagana Wetland Park,Colombo,199,Wellness,0.556,0.143,0.385,0.077,0.889,0.222,0.0,0.667
+Bellagio Colombo,Colombo,230,Entertainment,0.111,0.071,0.077,0.231,0.444,0.667,0.0,0.111
+Birds Research Center Hambantota,Hambantota,268,Family,0.556,0.071,0.308,0.308,0.889,0.667,0.333,1.0
+Biso Ella Waterfall,Matara,61,Nature,0.444,0.071,0.231,0.0,0.333,0.222,0.0,0.333
+Black Galle Fort,Galle,46,Culture,0.278,0.643,0.077,0.231,0.0,0.333,0.556,0.0
+Blackpool,Badulla,43,Wellness,0.389,0.0,0.0,0.077,0.444,0.111,0.222,0.222
+Boburu Fall Tracking,Badulla,19,Nature,0.333,0.0,0.231,0.0,0.0,0.222,0.0,0.0
+Bogoda Raja Maha Viharaya,Badulla,34,Wellness,0.222,0.357,0.0,0.0,0.556,0.111,0.0,0.222
+Bomburu Ella Waterfall,Badulla,243,Nature,0.889,0.071,0.846,0.077,0.667,0.333,0.222,0.778
+Bopagama Ella,Gampaha,96,Family,0.556,0.071,0.077,0.077,0.667,0.111,0.222,0.889
+Bopath Falls,Rathnapura,327,Nature,0.778,0.071,0.692,0.538,0.778,0.444,0.222,0.778
+Bundala National Park,Hambantota,208,Nature,0.778,0.143,0.231,0.077,0.667,0.444,0.0,0.222
+Bundala Safari with Srimal,Hambantota,45,Wellness,0.389,0.0,0.154,0.0,0.444,0.222,0.0,0.111
+Casino Marina Colombo,Colombo,240,Entertainment,0.167,0.071,0.0,0.538,0.333,0.556,0.111,0.222
+Cathedral Church of Christ the King,Kurunagela,15,Culture,0.056,0.286,0.0,0.0,0.111,0.0,0.111,0.0
+Children park - lakeround,Kurunagela,277,Family,0.5,0.071,0.231,0.077,0.778,0.222,0.333,0.889
+"Christ Church Warleigh, Dickoya",Hatton,10,Culture,0.167,0.357,0.0,0.0,0.333,0.0,0.0,0.0
+Coconut Tree Hill,Matara,278,Wellness,0.778,0.143,0.615,0.462,0.889,0.444,0.333,0.222
+Colombo Natational Museum,Colombo,205,Culture,0.389,0.714,0.154,0.154,0.444,0.444,0.333,0.444
+Colombo Port Maritime Museum,Colombo,31,Culture,0.056,0.286,0.0,0.0,0.0,0.0,0.0,0.222
+Colombo Port Old Lighthouse,Colombo,199,Wellness,0.444,0.571,0.231,0.385,0.667,0.444,0.0,0.667
+Crow Island Beach Park,Colombo,210,Wellness,0.556,0.143,0.308,0.769,0.889,0.556,0.444,0.889
+Dalada maligawa kurunagela,Kurunagela,6,Culture,0.0,0.071,0.0,0.0,0.0,0.0,0.0,0.0
+Dandeniya Wewa,Matara,25,Wellness,0.222,0.0,0.0,0.0,0.333,0.111,0.0,0.111
+Deduru oya dam,Kurunagela,10,Shopping,0.111,0.0,0.0,0.0,0.111,0.0,0.222,0.111
+Deduru oya resovir park,Kurunagela,30,Wellness,0.222,0.0,0.077,0.077,0.333,0.0,0.0,0.111
+Dehena Ella,Rathnapura,86,Nature,0.5,0.0,0.462,0.077,0.111,0.333,0.0,0.111
+Dehiwala Zoological Gardens,Colombo,210,Family,0.444,0.214,0.231,0.385,0.444,0.556,0.222,1.0
+Delgamuwa Rajamaha Viharaya,Rathnapura,77,Culture,0.222,0.571,0.0,0.0,0.444,0.222,0.222,0.111
+Devon Falls,Hatton,339,Nature,0.778,0.214,0.615,0.385,0.444,0.111,0.111,0.333
+Devon Waterfall view point,Hatton,174,Nature,0.667,0.071,0.231,0.308,0.556,0.222,0.111,0.0
+Diva Guhawa,Rathnapura,89,Culture,0.444,0.571,0.462,0.0,0.333,0.222,0.0,0.0
+Diyaluma Falls,Badulla,269,Adventure,0.778,0.071,0.923,0.308,0.556,0.444,0.222,0.556
+Diyatha Uyana,Colombo,200,Family,0.722,0.143,0.385,0.923,0.889,0.667,0.667,1.0
+Dolukanda rajamaha viharaya,Kurunagela,61,Adventure,0.389,0.214,0.692,0.0,0.333,0.111,0.0,0.0
+Dondra Head,Matara,206,Wellness,0.611,0.5,0.154,0.077,0.889,0.222,0.0,0.444
+"Dry Zone Botanic Gardens, Hambantota",Hambantota,259,Nature,0.667,0.071,0.308,0.077,0.556,0.556,0.222,0.556
+Dumbara ella waterfalls,Matale,71,Adventure,0.611,0.071,0.692,0.0,0.111,0.111,0.0,0.222
+Dumpus Ella,Rathnapura,14,Nature,0.222,0.071,0.154,0.0,0.0,0.0,0.0,0.111
+Dunhida Waterfall access point,Badulla,128,Nature,0.667,0.143,0.462,0.154,0.222,0.111,0.333,0.222
+Dunhinda Waterfall,Badulla,135,Nature,0.667,0.071,0.538,0.077,0.444,0.0,0.667,0.111
+Dutch Museum,Colombo,150,Entertainment,0.222,0.5,0.077,0.231,0.333,0.556,0.444,0.444
+Dutch Reformed Church,Galle,124,Culture,0.222,0.786,0.077,0.0,0.556,0.222,0.111,0.0
+Excel World Entertainment Park,Colombo,200,Entertainment,0.222,0.071,0.231,0.769,0.556,0.778,0.222,0.667
+Flamingos Safari Tours,Hambantota,8,Family,0.056,0.0,0.077,0.0,0.0,0.0,0.0,0.111
+Galhinna big rock,Kurunagela,28,Nature,0.444,0.071,0.154,0.0,0.444,0.0,0.0,0.333
+Galle Dutch Fort,Galle,199,Culture,0.667,1.0,0.231,0.923,0.889,0.444,0.889,0.111
+Galle Face Green,Colombo,198,Family,0.667,0.286,0.231,0.385,0.778,0.444,0.333,0.889
+Galle Face park & Beach,Colombo,171,Wellness,0.389,0.071,0.231,0.231,0.778,0.222,0.333,0.667
+Galle Fort Attractions and Jumpers Sri Lanka,Galle,198,Culture,0.556,0.929,0.154,0.615,0.889,0.333,0.778,0.222
+Galle Fort Clock Tower,Galle,197,Culture,0.556,1.0,0.231,0.385,0.667,0.333,0.444,0.444
+Galpotha Natural water slide,Hatton,10,Nature,0.333,0.0,0.077,0.0,0.111,0.0,0.0,0.222
+Gampaha Botanical Garden,Gampaha,239,Family,0.5,0.286,0.154,0.385,0.778,0.333,0.0,1.0
+Gangarama Sima Malaka,Colombo,197,Wellness,0.556,0.786,0.308,0.077,1.0,0.444,0.444,0.333
+Gangarama Temple,Colombo,197,Wellness,0.278,0.857,0.154,0.077,0.889,0.556,0.556,0.556
+Gartmore Falls,Hatton,226,Nature,0.889,0.143,0.615,0.154,0.667,0.333,0.0,0.111
+Glassaugh Falls,Hatton,21,Family,0.222,0.0,0.231,0.077,0.111,0.0,0.0,0.444
+Goraka Ella,Gampaha,54,Wellness,0.333,0.071,0.0,0.0,0.778,0.111,0.0,0.444
+Guruge Park,Gampaha,220,Family,0.389,0.643,0.385,0.308,0.556,0.556,0.222,0.778
+Hambantota Beach,Hambantota,38,Wellness,0.333,0.0,0.154,0.077,0.444,0.111,0.0,0.444
+Hambantota Beach Children Park,Hambantota,28,Family,0.222,0.0,0.0,0.0,0.222,0.0,0.0,0.556
+Hambantota Port View,Hambantota,19,Nature,0.167,0.071,0.0,0.0,0.0,0.0,0.0,0.0
+Hamilton Canal Park,Colombo,61,Family,0.278,0.143,0.154,0.0,0.333,0.111,0.222,0.444
+Hatton Siripada view point,Hatton,15,Wellness,0.278,0.0,0.077,0.077,0.333,0.0,0.0,0.0
+Hiriketiya Beach,Matara,219,Wellness,0.5,0.071,0.154,0.769,0.778,0.556,0.333,0.778
+Historical Mansion Meseum,Galle,109,Shopping,0.167,0.429,0.154,0.0,0.333,0.222,0.444,0.222
+Horagolla National Park,Gampaha,166,Wellness,0.5,0.214,0.385,0.077,0.778,0.111,0.0,0.556
+Horton plains national park,Hatton,1021,Nature,1.0,0.571,1.0,0.615,0.889,0.556,0.444,0.889
+Hulangala mini world end entrance,Kurunagela,55,Adventure,0.333,0.0,0.462,0.0,0.333,0.111,0.0,0.111
+Hulangala mini world's end view,Matale,242,Nature,0.833,0.143,0.615,0.077,0.667,0.333,0.0,0.222
+Hummanaya Blow Hole,Matara,230,Family,0.611,0.214,0.615,0.308,0.556,0.333,0.444,0.778
+Hunnasgiriya water falls,Matale,339,Family,0.833,0.071,0.538,0.615,0.778,0.444,0.333,0.889
+Ibbagala rajamaha viharaya,Kurunagela,18,Wellness,0.278,0.286,0.077,0.0,0.333,0.0,0.0,0.0
+Independence Square,Colombo,208,Wellness,0.5,0.571,0.231,0.462,1.0,0.444,0.333,1.0
+Japanese Peace Pagoda - Rumassala,Galle,260,Wellness,0.833,0.643,0.538,0.154,1.0,0.556,0.222,0.333
+Jodu ella water falls,Matale,91,Nature,0.778,0.071,0.385,0.0,0.333,0.111,0.222,0.111
+"Jungle Beach, Unawatuna",Galle,230,Wellness,0.667,0.214,0.769,0.615,0.889,0.333,0.222,0.667
+K & R Tours Hambantota,Hambantota,10,Nature,0.056,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+Kadiyanlena eco resort,Hatton,416,Family,0.667,0.143,0.462,0.231,0.778,0.444,0.0,0.889
+Kalutara Bodhiya,Kalutara,301,Wellness,0.611,0.857,0.154,0.0,1.0,0.222,0.333,0.333
+Kande sudu ella water falls,Matale,14,Nature,0.278,0.0,0.0,0.0,0.111,0.0,0.0,0.111
+Kathiresan Pillayar kovil,Colombo,178,Wellness,0.167,0.357,0.077,0.154,1.0,0.0,0.0,0.111
+Katugas Ella Waterfall,Rathnapura,115,Wellness,0.556,0.143,0.154,0.0,0.667,0.333,0.0,0.667
+Kayman's Gate,Colombo,28,Culture,0.056,0.357,0.077,0.0,0.0,0.111,0.222,0.0
+Kelaniya Raja Maha Viharaya,Colombo,199,Wellness,0.278,0.786,0.077,0.0,1.0,0.333,0.333,0.0
+Kiddies paradise children's park,Matale,58,Family,0.222,0.0,0.077,0.0,0.556,0.333,0.0,0.889
+Kirala Kele Sanctuary,Matara,27,Wellness,0.278,0.0,0.231,0.077,0.444,0.0,0.0,0.0
+Kirinda Beach,Hambantota,206,Nature,0.667,0.5,0.154,0.308,0.667,0.333,0.667,0.667
+Kirindi Ella Waterfall,Rathnapura,150,Adventure,0.667,0.0,0.692,0.077,0.222,0.556,0.0,0.667
+Kolapathana waterfall,Hatton,228,Adventure,0.778,0.143,0.846,0.077,0.444,0.222,0.0,0.444
+Kombukara Nature Pool and Secre,Badulla,105,Wellness,0.5,0.0,0.385,0.154,0.778,0.333,0.111,0.667
+Kurunagela camp site,Kurunagela,16,Adventure,0.056,0.0,0.154,0.0,0.111,0.0,0.0,0.0
+Kurunagela clock tower,Kurunagela,778,Culture,0.333,0.643,0.231,0.077,0.111,0.333,0.444,0.111
+Kurunagela lake jogging path,Kurunagela,18,Wellness,0.167,0.0,0.154,0.0,0.556,0.111,0.0,0.222
+Kurundu Oya Ella Falls,Badulla,51,Nature,0.611,0.071,0.385,0.0,0.111,0.222,0.0,0.222
+Lagoon boat tour and Bird watching with the beautiful nature,Hambantota,11,Wellness,0.222,0.0,0.0,0.077,0.556,0.222,0.0,0.0
+Lake round kurunagela,Kurunagela,298,Wellness,0.611,0.0,0.308,0.385,0.889,0.444,0.222,0.778
+Lanka Ella - Waterfall,Badulla,138,Adventure,0.667,0.071,0.692,0.0,0.556,0.333,0.0,0.111
+Laxapana waterfall,Hatton,453,Nature,0.833,0.143,0.692,0.077,0.667,0.444,0.222,0.778
+Lighthouse - Galle,Galle,196,Wellness,0.556,0.786,0.231,0.538,1.0,0.444,0.556,0.556
+Lighthouse - Hambantota,Hambantota,12,Adventure,0.111,0.071,0.154,0.0,0.0,0.111,0.0,0.0
+Lover's leap waterfall,Hatton,287,Nature,0.889,0.286,0.846,0.077,0.778,0.222,0.0,0.556
+Lucky land spice garden,Matale,23,Nature,0.167,0.0,0.077,0.077,0.111,0.111,0.0,0.0
+Madanagiri Ella,Rathnapura,16,Nature,0.167,0.0,0.154,0.0,0.111,0.111,0.0,0.111
+Madiha Beach,Matara,176,Wellness,0.444,0.0,0.154,0.538,0.667,0.556,0.222,0.444
+Madunagala Hot Water Spring,Hambantota,224,Family,0.5,0.143,0.077,0.154,0.333,0.444,0.667,0.889
+Magampura Ruhunu Heritage Museum,Hambantota,11,Entertainment,0.111,0.286,0.154,0.0,0.0,0.333,0.0,0.0
+Mahamodara Beach Park & Marine Walk,Galle,108,Wellness,0.5,0.071,0.154,0.154,1.0,0.222,0.222,0.556
+Mapalana Ella Falls,Rathnapura,83,Nature,0.556,0.143,0.231,0.0,0.333,0.222,0.0,0.111
+Marakkala Ella,Rathnapura,14,Nature,0.444,0.071,0.308,0.0,0.0,0.111,0.0,0.111
+Maraluwawa raja maha viharaya,Kurunagela,64,Wellness,0.667,0.214,0.154,0.0,1.0,0.0,0.0,0.0
+Maritime Museum,Galle,210,Culture,0.222,0.643,0.154,0.154,0.556,0.444,0.111,0.556
+Maruthamunai beach,Kalmunai,110,Family,0.389,0.071,0.077,0.231,0.556,0.333,0.0,0.667
+Matale town -  view point,Matale,31,Nature,0.167,0.071,0.0,0.0,0.111,0.111,0.0,0.0
+Matara Beach Park,Matara,172,Family,0.5,0.071,0.077,0.308,0.667,0.222,0.333,0.778
+Matara Bodhiya,Matara,207,Wellness,0.278,0.5,0.0,0.0,1.0,0.0,0.0,0.111
+Matara Fort,Matara,164,Culture,0.389,0.714,0.077,0.462,0.667,0.111,0.444,0.0
+Matara Paravi Duwa Beach,Matara,109,Wellness,0.444,0.214,0.077,0.308,0.556,0.222,0.0,0.333
+Mayan Water Park,Gampaha,192,Family,0.222,0.071,0.077,0.154,0.111,0.444,0.0,0.778
+"Meeran Mosque, Galle Fort",Galle,193,Culture,0.333,0.857,0.0,0.0,0.778,0.333,0.111,0.333
+Minee Ella,Rathnapura,59,Nature,0.5,0.0,0.154,0.077,0.222,0.222,0.0,0.111
+Mirijjawila Botanical Gardens - South Gate,Hambantota,16,Nature,0.222,0.0,0.154,0.0,0.222,0.0,0.222,0.111
+Mirissa Beach,Matara,239,Entertainment,0.611,0.071,0.231,0.615,0.667,1.0,0.222,0.444
+Mohini Falls,Hatton,103,Wellness,0.389,0.071,0.308,0.077,0.444,0.0,0.0,0.222
+Moon plains,Hatton,776,Nature,0.889,0.286,0.538,0.077,0.778,0.444,0.0,0.667
+Mooray falls,Hatton,50,Nature,0.556,0.0,0.308,0.0,0.111,0.0,0.0,0.0
+Mount Lavania Beach,Colombo,200,Wellness,0.556,0.214,0.154,0.615,0.889,0.778,0.0,0.778
+Mount vernon waterfall,Hatton,18,Nature,0.278,0.0,0.0,0.0,0.0,0.111,0.0,0.0
+Muthiyangana Raja Maha Vihara,Badulla,291,Wellness,0.389,0.714,0.154,0.0,1.0,0.111,0.0,0.444
+Nalanda gedige,Matale,518,Wellness,0.667,0.857,0.231,0.154,1.0,0.333,0.111,0.333
+Narangala Hill,Badulla,94,Adventure,0.389,0.143,0.615,0.077,0.333,0.111,0.222,0.333
+Narangala Mountain,Badulla,163,Adventure,0.778,0.214,0.846,0.077,0.444,0.333,0.111,0.222
+National Art Gallery,Colombo,48,Culture,0.222,0.286,0.0,0.0,0.222,0.111,0.222,0.0
+National Meuseum Galle,Galle,98,Culture,0.167,0.643,0.077,0.0,0.111,0.111,0.111,0.444
+National spice garden of sri lanka,Matale,69,Entertainment,0.333,0.143,0.077,0.154,0.0,0.444,0.222,0.0
+Nilwala Crocodile Safari,Matara,27,Wellness,0.222,0.071,0.077,0.0,0.556,0.111,0.0,0.222
+Old Dutch Market,Matara,37,Culture,0.111,0.571,0.0,0.0,0.111,0.0,0.333,0.0
+Old Parliament Building,Colombo,44,Culture,0.222,0.286,0.0,0.0,0.111,0.111,0.111,0.0
+Padiwita ambalama,Matale,63,Wellness,0.333,0.286,0.077,0.0,0.778,0.222,0.0,0.0
+Pallewela Waterfall,Badulla,42,Wellness,0.444,0.071,0.615,0.0,0.667,0.0,0.0,0.0
+Panagala,Kurunagela,9,Wellness,0.278,0.0,0.0,0.0,0.444,0.0,0.0,0.0
+Pandiruppu,Kalmunai,7,Wellness,0.167,0.0,0.0,0.0,0.222,0.0,0.0,0.0
+Pareiyan Ella Falls,Badulla,48,Nature,0.389,0.071,0.308,0.0,0.0,0.111,0.0,0.333
+Parewi Duwa Temple,Matara,276,Wellness,0.556,0.5,0.154,0.0,0.778,0.111,0.111,0.667
+Parrot Rock,Matara,209,Nature,0.611,0.071,0.538,0.231,0.444,0.333,0.0,0.556
+Pasindu's Snorkeling Centre,Matara,14,Culture,0.056,0.071,0.0,0.0,0.0,0.0,0.0,0.0
+Pettah Floating Market,Colombo,210,Food,0.5,0.143,0.154,1.0,0.778,0.778,1.0,0.444
+"Pitawala pathana , riverston",Matale,604,Nature,0.889,0.143,0.615,0.462,0.889,0.444,0.111,0.556
+Porawagala Viewpoint,Badulla,92,Nature,0.556,0.214,0.077,0.0,0.444,0.111,0.111,0.111
+Pothgul Vihara,Rathnapura,55,Wellness,0.278,0.286,0.154,0.0,0.333,0.111,0.0,0.0
+Prabhawa Mountain Day Viewpoint,Badulla,29,Wellness,0.333,0.214,0.231,0.0,0.444,0.111,0.0,0.0
+Puwakpitiya Oya,Matale,18,Nature,0.278,0.0,0.0,0.077,0.222,0.111,0.0,0.111
+Queen Viharamahadevi Statue,Colombo,12,Wellness,0.167,0.071,0.0,0.0,0.333,0.0,0.0,0.111
+Rahas ella waterfalls,Matale,62,Nature,0.444,0.143,0.385,0.154,0.333,0.111,0.0,0.444
+Raja & the Whales,Matara,270,Food,0.389,0.071,0.231,0.462,0.222,0.444,0.0,0.222
+Rajanawa Waterfall,Rathnapura,53,Family,0.333,0.071,0.231,0.0,0.222,0.222,0.111,0.444
+Rambadagalla monaragala temple,Kurunagela,10,Culture,0.111,0.143,0.0,0.0,0.0,0.0,0.0,0.0
+Rangala natural pool,Matale,288,Wellness,0.556,0.071,0.231,0.077,0.778,0.333,0.222,0.333
+Rathnapura National Museum,Rathnapura,86,Wellness,0.167,0.5,0.077,0.0,0.556,0.444,0.0,0.333
+Ravan Ella Waterfall,Badulla,63,Nature,0.556,0.071,0.077,0.0,0.0,0.111,0.0,0.111
+Ravana Waterfall,Badulla,219,Nature,0.833,0.286,0.769,0.154,0.778,0.556,0.667,0.444
+Ravana's Cave,Badulla,280,Nature,0.778,0.571,0.769,0.154,0.667,0.222,0.111,0.556
+Rekawa Turtle Beach,Hambantota,45,Family,0.278,0.071,0.077,0.231,0.222,0.111,0.0,0.333
+Richmond Castle,Kalutara,246,Wellness,0.5,0.714,0.077,0.0,0.778,0.444,0.111,0.778
+Ridiyagama Safari Park,Hambantota,408,Family,0.611,0.071,0.231,0.385,0.222,0.444,0.111,0.778
+Riverston,Matale,907,Wellness,0.944,0.357,0.923,0.154,1.0,0.444,0.333,0.889
+Rukmani Devi Park,Gampaha,200,Family,0.444,0.143,0.154,0.231,0.778,0.333,0.111,1.0
+Rumassala Sanctuary,Galle,90,Nature,0.5,0.286,0.308,0.077,0.222,0.333,0.222,0.0
+Rumassala South Beach,Galle,65,Nature,0.5,0.143,0.154,0.308,0.444,0.222,0.0,0.333
+"Sam Tours and Taxi, Hambantota, Sri Lanka",Hambantota,26,Family,0.111,0.071,0.077,0.0,0.0,0.0,0.0,0.222
+Sambodhi Pagoda,Colombo,158,Wellness,0.333,0.643,0.231,0.0,0.667,0.333,0.0,0.333
+Saniro Dream Paradise,Gampaha,220,Family,0.167,0.143,0.077,0.077,0.444,0.556,0.111,0.889
+Sathutu Uyana,Colombo,217,Family,0.167,0.071,0.077,0.0,0.444,0.556,0.0,0.778
+Sea corner,Kalmunai,8,Nature,0.222,0.0,0.0,0.0,0.222,0.0,0.0,0.0
+Sembuwatta lake,Matale,657,Nature,0.944,0.214,0.692,0.615,0.889,0.333,0.556,0.889
+Sera ella water falls,Matale,521,Wellness,0.722,0.286,0.692,0.154,0.778,0.444,0.222,0.444
+Shanthipura view point,Hatton,299,Nature,0.667,0.143,0.231,0.308,0.667,0.222,0.222,0.333
+Single tree hill,Hatton,244,Nature,0.944,0.286,0.846,0.077,0.556,0.444,0.0,0.444
+Siri Gautama Sambuddharaja maligawa,Kurunagela,87,Wellness,0.222,0.214,0.0,0.0,1.0,0.0,0.0,0.222
+Sk Town Beach,Matara,29,Wellness,0.278,0.0,0.154,0.154,0.778,0.111,0.0,0.0
+Snake Farm Weligama (Traditional Farm),Matara,270,Family,0.333,0.143,0.154,0.0,0.667,0.333,0.0,0.778
+Sri Kailawasanathan Swami Devasthanam Kovil,Colombo,122,Wellness,0.111,0.643,0.154,0.077,0.667,0.111,0.111,0.0
+Sri Lanka Planetarium,Colombo,185,Family,0.278,0.214,0.077,0.077,0.222,0.444,0.0,0.556
+Sri Maha Viharaya,Rathnapura,39,Wellness,0.222,0.143,0.0,0.0,0.556,0.0,0.0,0.0
+Sri Sudharmalaya Buddhist Temple,Galle,97,Wellness,0.167,0.714,0.154,0.308,0.889,0.111,0.333,0.0
+Sri Sumana Saman Devalaya,Rathnapura,260,Culture,0.389,0.786,0.0,0.154,0.667,0.333,0.333,0.111
+Sri muththumari amman kovil,Matale,547,Wellness,0.5,0.929,0.154,0.077,1.0,0.556,0.0,0.0
+"St. Anthony's Shrine, Kochchikade",Colombo,268,Wellness,0.222,0.714,0.154,0.154,1.0,0.444,0.222,0.778
+St. Lucia's Cathedral,Colombo,186,Wellness,0.111,0.643,0.077,0.077,0.778,0.444,0.111,0.111
+St. Mary's Cathedral,Galle,70,Wellness,0.444,0.5,0.0,0.0,0.667,0.0,0.333,0.111
+Star Fort Matara,Matara,199,Culture,0.278,0.571,0.154,0.0,0.444,0.444,0.222,0.222
+Swarnagiri maha viharaya,Hatton,103,Wellness,0.611,0.214,0.308,0.0,0.667,0.111,0.0,0.111
+"TURTLE POINT BATHEEGAMA, DiCKWELLA.",Matara,44,Family,0.278,0.0,0.077,0.308,0.222,0.111,0.0,0.444
+Thalangama Lake,Colombo,208,Wellness,0.611,0.214,0.231,0.077,0.889,0.333,0.222,0.444
+The Palm Rope Swing,Matara,37,Nature,0.278,0.071,0.077,0.0,0.111,0.222,0.0,0.222
+The Shrine of Our Lady of Matara,Matara,217,Wellness,0.278,0.5,0.077,0.0,0.889,0.333,0.111,0.333
+Themali kaan waterfalls,Matale,14,Nature,0.056,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+Thepulangoda Waterfall,Rathnapura,24,Family,0.278,0.0,0.077,0.0,0.333,0.111,0.0,0.667
+To Sripada,Rathnapura,16,Wellness,0.167,0.143,0.231,0.0,0.333,0.0,0.222,0.0
+Torington park,Colombo,62,Wellness,0.111,0.214,0.154,0.0,0.778,0.333,0.0,0.778
+Turtle Bay Activity Center,Matara,103,Family,0.444,0.143,0.308,0.231,0.444,0.556,0.0,0.667
+Udammita Ambalama,Gampaha,39,Culture,0.056,0.286,0.0,0.0,0.111,0.0,0.222,0.0
+Upper Rawana,Badulla,31,Nature,0.611,0.071,0.385,0.231,0.111,0.0,0.222,0.222
+Upper kothmale reserovir view point,Hatton,21,Nature,0.333,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+Uva Halpewatte Tea Factory Tour,Badulla,230,Shopping,0.5,0.143,0.231,0.231,0.222,0.444,0.556,0.333
+V.T. Nanayakkara park,Matale,69,Wellness,0.278,0.143,0.077,0.0,0.778,0.111,0.0,0.444
+Viharamahadevi Park,Colombo,210,Family,0.556,0.214,0.462,0.308,0.889,0.667,0.222,1.0
+Wadakada ella falls,Kurunagela,44,Nature,0.222,0.0,0.0,0.0,0.222,0.111,0.0,0.0
+Waranagala waterfall,Rathnapura,15,Nature,0.278,0.0,0.077,0.0,0.111,0.0,0.0,0.111
+Weherahena Poorwarama Rajamaha Viharaya,Matara,195,Wellness,0.278,0.5,0.231,0.0,1.0,0.222,0.333,0.667
+Weligama Beach (surf spot),Matara,137,Wellness,0.389,0.143,0.154,0.462,0.778,0.222,0.556,0.333
+Wewala waterfall,Kurunagela,19,Nature,0.333,0.071,0.0,0.0,0.0,0.111,0.0,0.0
+Wewurukannala Buduraja Maha Viharaya,Matara,213,Wellness,0.278,0.786,0.231,0.0,0.889,0.222,0.0,0.667
+Windy corner falls,Hatton,16,Nature,0.444,0.071,0.0,0.0,0.0,0.0,0.0,0.0
+Wirawila Tissa Sanctuary,Hambantota,190,Nature,0.667,0.5,0.308,0.154,0.667,0.222,0.0,0.222
+Yakdessagala mountain,Kurunagela,66,Adventure,0.333,0.071,0.769,0.077,0.222,0.222,0.0,0.111
+Yapahuwa rock fortress,Kurunagela,670,Culture,0.889,0.929,0.769,0.077,0.778,0.333,0.0,0.667
+Yatagala Raja Maha Viharaya,Galle,198,Wellness,0.5,0.5,0.231,0.0,1.0,0.111,0.0,0.0
+Yatala Dalada Wehera,Hambantota,86,Culture,0.222,0.571,0.0,0.154,0.444,0.111,0.111,0.556
+kalido beach kalutara,Kalutara,16,Nature,0.222,0.071,0.0,0.077,0.222,0.111,0.0,0.111

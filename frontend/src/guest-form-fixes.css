@@ -1,0 +1,2 @@
+/* Keep the full third step accessible when its preference fields extend below the viewport. */
+.guest-page{overflow-x:hidden;overflow-y:visible}

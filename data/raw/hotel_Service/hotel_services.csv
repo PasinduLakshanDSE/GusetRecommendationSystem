@@ -1,0 +1,13 @@
+Service_ID,Service_Name,Category,Nature,Culture,Adventure,Food,Wellness,Entertainment,Shopping,Family,Min_Budget,Duration_Hours
+S001,Spa Wellness Experience,Wellness,0.2,0.1,0.1,0.2,1.0,0.1,0.1,0.2,Medium,2
+S002,Guided Nature Walk,Nature,1.0,0.2,0.8,0.1,0.3,0.1,0.1,0.4,Low,3
+S003,Romantic Dining Experience,Food,0.2,0.1,0.1,1.0,0.3,0.4,0.1,0.1,High,2
+S004,Family Activity Experience,Family,0.5,0.1,0.4,0.2,0.1,0.7,0.1,1.0,Medium,3
+S005,Adventure Excursion,Adventure,0.8,0.1,1.0,0.1,0.1,0.4,0.1,0.2,Medium,5
+S006,Cultural Experience,Culture,0.3,1.0,0.2,0.3,0.1,0.2,0.2,0.4,Low,3
+S007,Local Culinary Experience,Food,0.2,0.6,0.2,1.0,0.2,0.3,0.2,0.4,Medium,2
+S008,Pool and Relaxation,Wellness,0.2,0.1,0.1,0.2,0.9,0.5,0.1,0.7,Low,3
+S009,Evening Entertainment,Entertainment,0.1,0.2,0.1,0.4,0.1,1.0,0.2,0.3,Medium,3
+S010,Shopping and Local Market Tour,Shopping,0.2,0.6,0.2,0.4,0.1,0.3,1.0,0.3,Medium,4
+S011,Kids Activity Session,Family,0.2,0.1,0.3,0.2,0.1,0.7,0.1,1.0,Low,2
+S012,Private Scenic Experience,Nature,1.0,0.2,0.5,0.3,0.6,0.2,0.1,0.2,High,4

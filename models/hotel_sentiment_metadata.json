@@ -1,0 +1,13 @@
+{
+    "algorithm": "TF-IDF + Logistic Regression",
+    "training_rows": 405668,
+    "testing_rows": 101418,
+    "accuracy": 0.7140941450235658,
+    "macro_f1": 0.5840048706686546,
+    "weighted_f1": 0.7180414148843471,
+    "classes": [
+        "Negative",
+        "Neutral",
+        "Positive"
+    ]
+}
