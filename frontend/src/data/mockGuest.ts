@@ -1,5 +1,0 @@
-import type { GuestPreferences, GuestProfile, GuestSegment } from '../types/guest';
-export const mockGuest: GuestProfile = { guestId:'G-2026-001', name:'Alex Johnson', country:'United Kingdom', email:'alex.johnson@example.com', adults:2, children:0, budget:'Medium', district:'Badulla', stayDuration:2, activityLevel:'Low' };
-export const mockPreferences: GuestPreferences = { Nature_Interest:4.5, Culture_Interest:3, Adventure_Interest:4, Food_Interest:2, Wellness_Interest:3.5, Entertainment_Interest:2, Shopping_Interest:1.5, Family_Interest:2.5 };
-export const mockSegment: GuestSegment = { cluster:0, segment:'Nature & Wellness Explorer', description:'Guest demonstrates strong interest in nature and adventure experiences with moderate cultural interest.' };
-export const districts = ['Ampara','Anuradhapura','Badulla','Batticaloa','Colombo','Galle','Gampaha','Hambantota','Jaffna','Kalutara','Kandy','Kegalle','Kilinochchi','Kurunegala','Mannar','Matale','Matara','Monaragala','Mullaitivu','Nuwara Eliya','Polonnaruwa','Puttalam','Ratnapura','Trincomalee','Vavuniya'];

@@ -1,1 +1,0 @@
-import { percent } from '../../utils/formatters'; export function RecommendationScore({label,value,featured=false}:{label:string;value:number;featured?:boolean}){return <div className={featured?'score featured':'score'}><span>{label}</span><strong>{percent(value)}</strong><div className="bar"><i style={{width:`${value}%`}} /></div></div>}
