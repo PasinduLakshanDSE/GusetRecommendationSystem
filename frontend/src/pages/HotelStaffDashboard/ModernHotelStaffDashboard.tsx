@@ -112,8 +112,25 @@ export default function ModernHotelStaffDashboard() {
   const [activeNavigation, setActiveNavigation] = useState("Dashboard");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [search, setSearch] = useState("");
+  const [submittedGuest] = useState(() => {
+    const savedGuest = sessionStorage.getItem("latestGuestAnalysis");
+    return savedGuest ? JSON.parse(savedGuest) : null;
+  });
 
-  const filteredGuests = guests.filter((guest) =>
+  const dashboardGuests = submittedGuest
+    ? [{
+        initials: submittedGuest.name.split(" ").map((name: string) => name[0]).join("").slice(0, 2),
+        name: submittedGuest.name,
+        detail: `${submittedGuest.country} · ${submittedGuest.adults} guest${submittedGuest.adults === 1 ? "" : "s"}`,
+        room: submittedGuest.district || "Hotel stay",
+        budget: `${submittedGuest.budget} budget`,
+        recommendation: submittedGuest.analysis.services[0].name,
+        status: submittedGuest.status,
+        tone: "ready",
+      }, ...guests]
+    : guests;
+
+  const filteredGuests = dashboardGuests.filter((guest) =>
     `${guest.name} ${guest.detail} ${guest.recommendation}`
       .toLowerCase()
       .includes(search.toLowerCase()),
