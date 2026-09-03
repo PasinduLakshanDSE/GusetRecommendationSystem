@@ -12,7 +12,7 @@ SERVICES_PATH = PROJECT_ROOT / "data" / "raw" / "hotel_Service" / "hotel_service
 DESTINATIONS_PATH = PROJECT_ROOT / "data" / "processed" / "destination_profiles.csv"
 
 SEGMENT_FEATURES = [
-    "Nature_Interest", "Culture_Interest", "Food_Interest", "Wellness_Interest",
+    "Nature_Interest", "Culture_Interest", "Adventure_Interest", "Food_Interest", "Wellness_Interest",
     "Entertainment_Interest", "Shopping_Interest", "Family_Interest",
 ]
 PREFERENCE_FEATURES = [

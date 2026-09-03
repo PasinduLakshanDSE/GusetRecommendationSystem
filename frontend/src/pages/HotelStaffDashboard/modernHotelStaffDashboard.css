@@ -603,6 +603,9 @@
   font-size: 18px;
   line-height: 1.45;
 }
+.guest-row { cursor: pointer; transition: background .2s ease; }
+.guest-row:hover { background: #f2f9f7; }
+.ai-output-panel { display: grid; grid-template-columns: 1fr auto; gap: 18px; margin-top: 22px; padding: 28px; border: 1px solid #b9ded8; border-radius: 17px; background: linear-gradient(135deg, #e8f6f3, #fff); }.ai-output-panel > div > span { color: #00877e; font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }.ai-output-panel h2 { margin: 8px 0; font-family: "Playfair Display", Georgia, serif; }.ai-output-panel > div > p { margin: 0; color: #607b8d; }.ai-output-panel > button { align-self: start; padding: 8px 12px; border-radius: 9px; background: #fff; color: #007d73; font-weight: 800; }.ai-output-grid { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }.ai-output-grid article { padding: 17px; border: 1px solid #d5e9e5; border-radius: 13px; background: #fff; }.ai-output-grid h3 { margin: 0 0 9px; color: #246159; font-size: 13px; }.ai-output-grid > article > strong { font-size: 18px; }.ai-output-grid p { display: grid; gap: 3px; margin: 10px 0 0; color: #193c51; font-size: 13px; }.ai-output-grid p span { color: #778d9b; font-size: 11px; }
 @media (max-width: 1200px) {
   .metric-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -742,4 +745,5 @@
   .arrivals-heading h3 {
     font-size: 20px;
   }
+  .ai-output-grid { grid-template-columns: 1fr; }
 }

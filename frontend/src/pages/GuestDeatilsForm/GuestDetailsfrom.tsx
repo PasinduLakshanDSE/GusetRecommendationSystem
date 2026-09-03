@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   User,
   Mail,
@@ -83,7 +84,9 @@ const interestOptions = [
 ];
 
 export default function GuestDetailsfrom() {
+  const navigate = useNavigate();
   const [step, setStep] = useState(1);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] =
     useState<GuestFormData>(initialFormData);
 
@@ -169,21 +172,30 @@ export default function GuestDetailsfrom() {
       return;
     }
 
-    console.log("Guest Form:", formData);
-
-    /*
-      Later connect to Node.js backend:
-
-      await fetch("http://localhost:5000/api/guests", {
+    setIsSubmitting(true);
+    try {
+      const response = await fetch("http://localhost:8000/api/guests", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
-    */
-
-    alert("Guest preferences submitted successfully.");
+      const guest = await response.json();
+      if (!response.ok) throw new Error(guest.error || "Unable to submit preferences.");
+      sessionStorage.setItem("latestGuestAnalysis", JSON.stringify({
+        name: guest.fullName,
+        country: guest.country,
+        adults: guest.adults,
+        budget: guest.budget,
+        district: guest.district,
+        status: guest.status,
+        analysis: guest.aiAnalysis,
+      }));
+      navigate("/Hotelstaffdashboard");
+    } catch (error) {
+      alert(error instanceof Error ? error.message : "Unable to contact the server.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -824,7 +836,7 @@ export default function GuestDetailsfrom() {
                 className="continue-button"
                 onClick={submitForm}
               >
-                Submit preferences
+                {isSubmitting ? "Generating AI analysis..." : "Submit preferences"}
                 <ChevronRight size={18} />
               </button>
             )}

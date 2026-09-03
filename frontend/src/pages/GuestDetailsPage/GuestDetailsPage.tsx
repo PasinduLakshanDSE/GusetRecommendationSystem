@@ -1,16 +1,163 @@
-import { useState } from "react";
+/*import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight, Sparkles } from "lucide-react";
 import "./guestDetailsPage.css";
 
-const interests = ["Nature_Interest", "Culture_Interest", "Adventure_Interest", "Food_Interest", "Wellness_Interest", "Entertainment_Interest", "Shopping_Interest", "Family_Interest"] as const;
-const labels = ["Nature & outdoors", "Culture & heritage", "Adventure", "Food & dining", "Wellness & spa", "Entertainment", "Shopping", "Family activities"];
+const interests = [
+  "Nature_Interest",
+  "Culture_Interest",
+  "Adventure_Interest",
+  "Food_Interest",
+  "Wellness_Interest",
+  "Entertainment_Interest",
+  "Shopping_Interest",
+  "Family_Interest",
+] as const;
+const labels = [
+  "Nature & outdoors",
+  "Culture & heritage",
+  "Adventure",
+  "Food & dining",
+  "Wellness & spa",
+  "Entertainment",
+  "Shopping",
+  "Family activities",
+];
 
 export default function GuestDetailsPage() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [form, setForm] = useState({ name: "", email: "", phone: "", country: "", adults: 2, children: 0, budget: "Medium", district: "Badulla", preferences: { Nature_Interest: 4, Culture_Interest: 3, Adventure_Interest: 4, Food_Interest: 3, Wellness_Interest: 3, Entertainment_Interest: 2, Shopping_Interest: 2, Family_Interest: 2 } });
-  const submit = async (event: React.FormEvent) => { event.preventDefault(); setLoading(true); setError(""); try { const response = await fetch("http://127.0.0.1:5000/api/guests", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(form) }); const result = await response.json(); if (!response.ok) throw new Error(result.error); sessionStorage.setItem("latestGuestAnalysis", JSON.stringify(result)); navigate("/SideBar"); } catch (err) { setError(err instanceof Error ? err.message : "Unable to connect to AI service."); } finally { setLoading(false); } };
-  return <main className="guest-form-page"><section className="guest-form-shell"><aside><span><Sparkles size={24} /></span><p>Personalised guest experience</p><h1>Your stay, thoughtfully prepared.</h1><small>Share your preferences and our AI will prepare recommendations for the hotel team.</small></aside><form onSubmit={submit}><p className="eyebrow">Guest profile</p><h2>Tell us what you enjoy</h2><div className="guest-fields">{[["name", "Full name", "text"], ["email", "Email address", "email"], ["phone", "Phone number", "tel"], ["country", "Country", "text"], ["district", "Preferred district", "text"]].map(([key, label, type]) => <label key={key}>{label}<input required={key !== "phone"} type={type} value={form[key as "name" | "email" | "phone" | "country" | "district"]} onChange={(event) => setForm({ ...form, [key]: event.target.value })} /></label>)}<label>Budget<select value={form.budget} onChange={(event) => setForm({ ...form, budget: event.target.value })}>{["Low", "Medium", "High", "Luxury"].map((item) => <option key={item}>{item}</option>)}</select></label></div><div className="interest-grid">{interests.map((key, index) => <label key={key}><span>{labels[index]} <b>{form.preferences[key]}/5</b></span><input type="range" min="1" max="5" value={form.preferences[key]} onChange={(event) => setForm({ ...form, preferences: { ...form.preferences, [key]: Number(event.target.value) } })} /></label>)}</div>{error && <p className="form-error">{error}</p>}<button type="submit" disabled={loading}>{loading ? "Creating your personalised stay..." : "Create my personalised stay"}<ArrowRight size={18} /></button></form></section></main>;
-}
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    country: "",
+    adults: 2,
+    children: 0,
+    budget: "Medium",
+    district: "Badulla",
+    preferences: {
+      Nature_Interest: 4,
+      Culture_Interest: 3,
+      Adventure_Interest: 4,
+      Food_Interest: 3,
+      Wellness_Interest: 3,
+      Entertainment_Interest: 2,
+      Shopping_Interest: 2,
+      Family_Interest: 2,
+    },
+  });
+  const submit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    setLoading(true);
+    setError("");
+    try {
+      const response = await fetch("http://127.0.0.1:5000/api/guests", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error);
+      sessionStorage.setItem("latestGuestAnalysis", JSON.stringify(result));
+      navigate("/SideBar");
+    } catch (err) {
+      setError(
+        err instanceof Error ? err.message : "Unable to connect to AI service.",
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+  return (
+    <main className="guest-form-page">
+      <section className="guest-form-shell">
+        <aside>
+          <span>
+            <Sparkles size={24} />
+          </span>
+          <p>Personalised guest experience</p>
+          <h1>Your stay, thoughtfully prepared.</h1>
+          <small>
+            Share your preferences and our AI will prepare recommendations for
+            the hotel team.
+          </small>
+        </aside>
+        <form onSubmit={submit}>
+          <p className="eyebrow">Guest profile</p>
+          <h2>Tell us what you enjoy</h2>
+          <div className="guest-fields">
+            {[
+              ["name", "Full name", "text"],
+              ["email", "Email address", "email"],
+              ["phone", "Phone number", "tel"],
+              ["country", "Country", "text"],
+              ["district", "Preferred district", "text"],
+            ].map(([key, label, type]) => (
+              <label key={key}>
+                {label}
+                <input
+                  required={key !== "phone"}
+                  type={type}
+                  value={
+                    form[
+                      key as "name" | "email" | "phone" | "country" | "district"
+                    ]
+                  }
+                  onChange={(event) =>
+                    setForm({ ...form, [key]: event.target.value })
+                  }
+                />
+              </label>
+            ))}
+            <label>
+              Budget
+              <select
+                value={form.budget}
+                onChange={(event) =>
+                  setForm({ ...form, budget: event.target.value })
+                }
+              >
+                {["Low", "Medium", "High", "Luxury"].map((item) => (
+                  <option key={item}>{item}</option>
+                ))}
+              </select>
+            </label>
+          </div>
+          <div className="interest-grid">
+            {interests.map((key, index) => (
+              <label key={key}>
+                <span>
+                  {labels[index]} <b>{form.preferences[key]}/5</b>
+                </span>
+                <input
+                  type="range"
+                  min="1"
+                  max="5"
+                  value={form.preferences[key]}
+                  onChange={(event) =>
+                    setForm({
+                      ...form,
+                      preferences: {
+                        ...form.preferences,
+                        [key]: Number(event.target.value),
+                      },
+                    })
+                  }
+                />
+              </label>
+            ))}
+          </div>
+          {error && <p className="form-error">{error}</p>}
+          <button type="submit" disabled={loading}>
+            {loading
+              ? "Creating your personalised stay..."
+              : "Create my personalised stay"}
+            <ArrowRight size={18} />
+          </button>
+        </form>
+      </section>
+    </main>
+  );
+}*/

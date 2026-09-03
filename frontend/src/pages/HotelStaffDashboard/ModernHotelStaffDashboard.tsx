@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import type { LucideIcon } from "lucide-react";
 import {
   Activity,
@@ -108,10 +109,31 @@ const arrivals = [
   { time: "16:45", name: "Emma Williams", detail: "Honeymoon package" },
 ];
 
+const navigationPaths: Record<string, string> = {
+  Dashboard: "/Hotelstaffdashboard",
+  "Guest Profile": "/GuestDetailsForm",
+  "Preference Analysis": "/GuestDetailsForm",
+  Recommendations: "/Hotelstaffdashboard",
+  "Booking Risk": "/Hotelstaffdashboard",
+  "Review Intelligence": "/Hotelstaffdashboard",
+  "Recommendation History": "/Hotelstaffdashboard",
+  Settings: "/Hotelstaffdashboard",
+};
+
 export default function ModernHotelStaffDashboard() {
+  const navigate = useNavigate();
   const [activeNavigation, setActiveNavigation] = useState("Dashboard");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [search, setSearch] = useState("");
+  const [databaseGuests, setDatabaseGuests] = useState<any[]>([]);
+  const [selectedGuest, setSelectedGuest] = useState<any>(null);
+
+  useEffect(() => {
+    fetch("http://localhost:8000/api/guests")
+      .then((response) => response.json())
+      .then((data) => setDatabaseGuests(data))
+      .catch(() => setDatabaseGuests([]));
+  }, []);
   const [submittedGuest] = useState(() => {
     const savedGuest = sessionStorage.getItem("latestGuestAnalysis");
     return savedGuest ? JSON.parse(savedGuest) : null;
@@ -129,12 +151,7 @@ export default function ModernHotelStaffDashboard() {
         tone: "ready",
       }, ...guests]
     : guests;
-
-  const filteredGuests = dashboardGuests.filter((guest) =>
-    `${guest.name} ${guest.detail} ${guest.recommendation}`
-      .toLowerCase()
-      .includes(search.toLowerCase()),
-  );
+  void dashboardGuests;
 
   return (
     <main className="hotel-dashboard">
@@ -168,6 +185,7 @@ export default function ModernHotelStaffDashboard() {
                 onClick={() => {
                   setActiveNavigation(item.label);
                   setIsSidebarOpen(false);
+                  navigate(navigationPaths[item.label]);
                 }}
               >
                 <Icon size={19} />
@@ -221,7 +239,7 @@ export default function ModernHotelStaffDashboard() {
               aria-label="Notifications"
             >
               <Bell size={19} />
-              <b>3</b>
+              <b>{databaseGuests.filter((guest) => !guest.notificationRead).length}</b>
             </button>
             <div className="date-card">
               <small>Today</small>
@@ -314,31 +332,31 @@ export default function ModernHotelStaffDashboard() {
                 <span>Status</span>
                 <span />
               </div>
-              {filteredGuests.map((guest) => (
-                <article className="guest-row" key={guest.name}>
+              {databaseGuests.map((guest) => (
+                <article className="guest-row" key={guest._id} onClick={() => navigate(`/guest-details/${guest._id}`)}>
                   <div className="guest-identity">
-                    <b>{guest.initials}</b>
+                    <b>{guest.fullName.split(" ").map((name: string) => name[0]).join("").slice(0, 2)}</b>
                     <span>
-                      <strong>{guest.name}</strong>
-                      <small>{guest.detail}</small>
+                      <strong>{guest.fullName}</strong>
+                      <small>{guest.country} · {guest.adults} adults</small>
                     </span>
                   </div>
                   <div className="guest-stay">
-                    <strong>{guest.room}</strong>
-                    <small>{guest.budget}</small>
+                    <strong>{guest.roomPreference || "Hotel stay"}</strong>
+                    <small>{guest.budget} budget</small>
                   </div>
                   <div className="guest-recommendation">
                     <Sparkles size={15} />
-                    <strong>{guest.recommendation}</strong>
+                    <strong>{guest.aiAnalysis?.services?.[0]?.name || "AI analysis pending"}</strong>
                   </div>
-                  <div className={`guest-status ${guest.tone}`}>
+                  <div className="guest-status ready">
                     <i />
-                    {guest.status}
+                    {guest.status || "Ready to review"}
                   </div>
                   <button
                     className="guest-arrow"
                     type="button"
-                    aria-label={`Open ${guest.name}`}
+                    aria-label={`Open ${guest.fullName}`}
                   >
                     <ChevronRight size={20} />
                   </button>
@@ -391,6 +409,7 @@ export default function ModernHotelStaffDashboard() {
             </article>
           </aside>
         </section>
+        {selectedGuest && <section className="ai-output-panel"><div><span>Selected guest · AI analysis</span><h2>{selectedGuest.fullName}</h2><p>{selectedGuest.aiAnalysis?.summary}</p></div><button type="button" onClick={() => setSelectedGuest(null)}>Close</button><div className="ai-output-grid"><article><h3>Guest segment</h3><strong>{selectedGuest.aiAnalysis?.segment?.name}</strong><p>AI cluster {selectedGuest.aiAnalysis?.segment?.cluster}</p></article><article><h3>Top services</h3>{selectedGuest.aiAnalysis?.services?.map((service: any) => <p key={service.id}><b>{service.name}</b><span>{service.category} · {service.match}% match</span></p>)}</article><article><h3>Recommended places</h3>{selectedGuest.aiAnalysis?.places?.map((place: any) => <p key={place.name}><b>{place.name}</b><span>{place.district} · {place.match}% match</span></p>)}</article></div></section>}
       </section>
     </main>
   );
