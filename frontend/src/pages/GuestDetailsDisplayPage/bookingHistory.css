@@ -1,0 +1,6 @@
+.booking-status-control { display: inline-flex; gap: 9px; align-items: center; margin-top: 15px; padding: 8px 11px; border: 1px solid #dce8f0; border-radius: 10px; background: #fff; color: #5e768b; font-size: 12px; font-weight: 700; }
+.booking-status-control select { border: 0; outline: 0; color: #087d73; background: transparent; font: inherit; font-weight: 800; cursor: pointer; }
+.booking-status-control select:disabled { opacity: .55; cursor: wait; }
+.risk-history { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 9px; padding-top: 2px; }
+.risk-history span { padding: 8px 10px; border-radius: 9px; color: #5c7286; background: #f4f8fb; font-size: 12px; }
+.risk-history b { color: #143e58; }

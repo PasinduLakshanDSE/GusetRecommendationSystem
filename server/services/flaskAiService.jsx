@@ -10,7 +10,7 @@ const interestNames = [
   "Family",
 ];
 
-async function analyzeGuest(guest) {
+async function analyzeGuest(guest, bookingHistory = {}) {
   const preferences = Object.fromEntries(
     interestNames.map((name) => [
       `${name}_Interest`,
@@ -28,6 +28,12 @@ async function analyzeGuest(guest) {
       children: guest.children,
       budget: guest.budget,
       district: guest.district,
+      arrivalDate: guest.arrivalDate,
+      stayDuration: guest.stayDuration,
+      purposeOfVisit: guest.purposeOfVisit,
+      roomPreference: guest.roomPreference,
+      foodPreference: guest.foodPreference,
+      bookingHistory,
       preferences,
     },
   );

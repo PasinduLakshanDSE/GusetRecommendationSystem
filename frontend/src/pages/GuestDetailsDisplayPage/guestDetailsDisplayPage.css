@@ -1,1 +1,246 @@
-.guest-detail-page{min-height:100vh;padding:48px max(24px,10%);background:#f4f8fb;color:#12344d;font-family:Arial,sans-serif}.guest-detail-page header>a{color:#008579;font-size:13px;font-weight:700;text-decoration:none}.guest-detail-page header>span{display:block;margin-top:35px;color:#008b80;font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}.guest-detail-page h1{margin:7px 0;font-size:38px}.guest-detail-page header p{color:#71879a}.guest-detail-card{margin-top:22px;padding:27px;border:1px solid #dce8f0;border-radius:16px;background:#fff}.guest-detail-card h2{margin-top:0;font-size:21px}.guest-detail-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:17px}.guest-detail-grid article{display:flex;gap:10px;padding:14px;border-radius:12px;background:#f4f8fb;color:#00877c}.guest-detail-grid span{display:grid;gap:4px;color:#173c53}.guest-detail-grid small{color:#72889b}.detail-tags{display:flex;gap:9px;flex-wrap:wrap}.detail-tags span{padding:9px 12px;border-radius:10px;background:#e7f5f2;color:#087c72;font-size:13px;font-weight:700}.analysis-link{display:inline-block;margin-top:24px;padding:13px 16px;border-radius:10px;background:#007e74;color:#fff;font-weight:800;text-decoration:none}@media(max-width:700px){.guest-detail-grid{grid-template-columns:1fr}.guest-detail-page{padding:30px 18px}}
+.guest-detail-page {
+  min-height: 100vh;
+  padding: 48px max(24px, 10%);
+  background: #f4f8fb;
+  color: #12344d;
+  font-family: Arial, sans-serif;
+}
+.guest-detail-page header > a {
+  color: #008579;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+}
+.guest-detail-page header > span {
+  display: block;
+  margin-top: 35px;
+  color: #008b80;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.guest-detail-page h1 {
+  margin: 7px 0;
+  font-size: 38px;
+}
+.guest-detail-page header p {
+  color: #71879a;
+}
+.guest-detail-card {
+  margin-top: 22px;
+  padding: 27px;
+  border: 1px solid #dce8f0;
+  border-radius: 16px;
+  background: #fff;
+}
+.guest-detail-card h2 {
+  margin-top: 0;
+  font-size: 21px;
+}
+.guest-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 17px;
+}
+.guest-detail-grid article {
+  display: flex;
+  gap: 10px;
+  padding: 14px;
+  border-radius: 12px;
+  background: #f4f8fb;
+  color: #00877c;
+}
+.guest-detail-grid span {
+  display: grid;
+  gap: 4px;
+  color: #173c53;
+}
+.guest-detail-grid small {
+  color: #72889b;
+}
+.detail-tags {
+  display: flex;
+  gap: 9px;
+  flex-wrap: wrap;
+}
+.detail-tags span {
+  padding: 9px 12px;
+  border-radius: 10px;
+  background: #e7f5f2;
+  color: #087c72;
+  font-size: 13px;
+  font-weight: 700;
+}
+.analysis-link {
+  display: inline-block;
+  margin-top: 24px;
+  padding: 13px 16px;
+  border-radius: 10px;
+  background: #007e74;
+  color: #fff;
+  font-weight: 800;
+  text-decoration: none;
+}
+.booking-risk-card {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 22px;
+  margin-top: 22px;
+  padding: 27px;
+  border: 1px solid #dce8f0;
+  border-left: 5px solid #6d8297;
+  border-radius: 16px;
+  background: #fff;
+}
+.booking-risk-card.low {
+  border-left-color: #15a36d;
+}
+.booking-risk-card.medium {
+  border-left-color: #d99419;
+}
+.booking-risk-card.high {
+  border-left-color: #d55656;
+}
+.booking-risk-main {
+  display: flex;
+  gap: 13px;
+  align-items: flex-start;
+}
+.booking-risk-icon {
+  display: grid;
+  width: 45px;
+  height: 45px;
+  place-items: center;
+  border-radius: 13px;
+  color: #637b90;
+  background: #edf2f5;
+}
+.booking-risk-card.low .booking-risk-icon {
+  color: #078b62;
+  background: #e2f6ed;
+}
+.booking-risk-card.medium .booking-risk-icon {
+  color: #bd7607;
+  background: #fff1d9;
+}
+.booking-risk-card.high .booking-risk-icon {
+  color: #c84242;
+  background: #ffe8e8;
+}
+.risk-eyebrow {
+  color: #008b80;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+.booking-risk-card h2 {
+  margin: 6px 0;
+  font-size: 21px;
+}
+.booking-risk-card p {
+  margin: 0;
+  color: #71879a;
+  font-size: 13px;
+}
+.risk-score {
+  display: grid;
+  min-width: 113px;
+  align-self: start;
+  place-items: center;
+  padding: 14px;
+  border-radius: 14px;
+  color: #637b90;
+  background: #f1f5f7;
+}
+.risk-score strong {
+  font-size: 25px;
+}
+.risk-score span {
+  margin-top: 3px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.booking-risk-card.low .risk-score {
+  color: #087d5b;
+  background: #e7f8f0;
+}
+.booking-risk-card.medium .risk-score {
+  color: #a96b07;
+  background: #fff3dc;
+}
+.booking-risk-card.high .risk-score {
+  color: #bb4141;
+  background: #ffebeb;
+}
+.risk-details {
+  grid-column: 1/-1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  padding-top: 3px;
+}
+.risk-details h3 {
+  margin: 0 0 10px;
+  font-size: 14px;
+}
+.risk-details ul {
+  display: grid;
+  gap: 8px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.risk-details li {
+  display: flex;
+  gap: 7px;
+  align-items: flex-start;
+  color: #60788e;
+  font-size: 12px;
+  line-height: 1.4;
+}
+.risk-details li svg {
+  flex: 0 0 auto;
+  color: #079373;
+}
+.risk-recommendation {
+  padding: 14px;
+  border-radius: 12px;
+  background: #f2f8f7;
+}
+.risk-recommendation span,
+.risk-recommendation b {
+  display: block;
+}
+.risk-recommendation span {
+  margin-bottom: 5px;
+  color: #008378;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.risk-recommendation b {
+  color: #29485e;
+  font-size: 13px;
+  line-height: 1.45;
+}
+@media (max-width: 700px) {
+  .guest-detail-grid {
+    grid-template-columns: 1fr;
+  }
+  .guest-detail-page {
+    padding: 30px 18px;
+  }
+  .booking-risk-card {
+    grid-template-columns: 1fr;
+  }
+  .risk-score {
+    justify-self: start;
+  }
+  .risk-details {
+    grid-template-columns: 1fr;
+  }
+}

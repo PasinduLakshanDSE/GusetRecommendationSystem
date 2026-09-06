@@ -20,6 +20,11 @@ const guestSchema = new mongoose.Schema(
     specialRequests: String,
     accessibilityNeeds: String,
     aiAnalysis: mongoose.Schema.Types.Mixed,
+    bookingStatus: {
+      type: String,
+      enum: ["Pending", "Confirmed", "Completed", "Cancelled"],
+      default: "Pending",
+    },
     status: { type: String, default: "Ready to review" },
     notificationRead: { type: Boolean, default: false },
   },

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { Check, Compass, Sparkles } from "lucide-react";
+import { Compass, Sparkles } from "lucide-react";
 import "./preferenceAnalysisPage.css";
 
 export default function PreferenceAnalysisPage() {
