@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 
 import "./guestDeatilsFrom.css";
+import "./districtPicker.css";
 
 type GuestFormData = {
   // Step 1
@@ -81,6 +82,21 @@ const interestOptions = [
   "Entertainment",
   "Shopping",
   "Family",
+];
+
+const districtOptions = [
+  { value: "Ella", note: "Hill-country escape" },
+  { value: "Kandy", note: "Nearby Matale & Hatton" },
+  { value: "Badulla", note: "Waterfalls & nature" },
+  { value: "Colombo", note: "City experiences" },
+  { value: "Galle", note: "Coastal heritage" },
+  { value: "Hatton", note: "Tea country" },
+  { value: "Matale", note: "Lakes & mountains" },
+  { value: "Matara", note: "Southern coast" },
+  { value: "Hambantota", note: "Wildlife & beaches" },
+  { value: "Kurunegala", note: "Cultural sites" },
+  { value: "Kalutara", note: "Coastal relaxation" },
+  { value: "Ratnapura", note: "Nature & gems" },
 ];
 
 export default function GuestDetailsfrom() {
@@ -505,22 +521,36 @@ export default function GuestDetailsfrom() {
 
               </div>
 
-              <FormField
-                label="Preferred area or district (optional)"
-                icon={<MapPin size={20} />}
-              >
-                <input
-                  type="text"
-                  placeholder="For example: Badulla, Ella or Colombo"
-                  value={formData.district}
-                  onChange={(event) =>
-                    updateField(
-                      "district",
-                      event.target.value
-                    )
-                  }
-                />
-              </FormField>
+              <section className="district-picker">
+                <div className="district-picker-heading">
+                  <div>
+                    <span className="district-picker-label"><MapPin size={17} /> Preferred area or district</span>
+                    <p>Choose an area to prioritise local recommendations.</p>
+                  </div>
+                  <span className="district-optional">Optional</span>
+                </div>
+                <div className="district-option-grid">
+                  {districtOptions.map((district) => (
+                    <button
+                      type="button"
+                      key={district.value}
+                      className={formData.district === district.value ? "district-option selected" : "district-option"}
+                      onClick={() => updateField("district", district.value)}
+                    >
+                      <MapPin size={17} />
+                      <span><b>{district.value}</b><small>{district.note}</small></span>
+                    </button>
+                  ))}
+                  <button
+                    type="button"
+                    className={!formData.district ? "district-option no-preference selected" : "district-option no-preference"}
+                    onClick={() => updateField("district", "")}
+                  >
+                    <span><b>No preference</b><small>Show the best matches across Sri Lanka</small></span>
+                  </button>
+                </div>
+                
+              </section>
 
             </div>
           </>

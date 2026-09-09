@@ -14,7 +14,7 @@ async function analyzeGuest(guest, bookingHistory = {}) {
   const preferences = Object.fromEntries(
     interestNames.map((name) => [
       `${name}_Interest`,
-      guest.interests.includes(name) ? 5 : 2,
+      (guest.interests || []).includes(name) ? 5 : 1,
     ]),
   );
   const { data } = await axios.post(

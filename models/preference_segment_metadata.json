@@ -1,0 +1,94 @@
+{
+  "trainingData": "balanced synthetic demonstration data",
+  "silhouetteScore": 0.5693,
+  "features": [
+    "Nature_Interest",
+    "Culture_Interest",
+    "Adventure_Interest",
+    "Food_Interest",
+    "Wellness_Interest",
+    "Entertainment_Interest",
+    "Shopping_Interest",
+    "Family_Interest"
+  ],
+  "clusters": {
+    "0": {
+      "name": "Culture & Culinary Explorer",
+      "centroid": {
+        "Nature_Interest": 1.21,
+        "Culture_Interest": 4.86,
+        "Adventure_Interest": 1.18,
+        "Food_Interest": 4.84,
+        "Wellness_Interest": 1.2,
+        "Entertainment_Interest": 2.04,
+        "Shopping_Interest": 1.96,
+        "Family_Interest": 1.99
+      }
+    },
+    "1": {
+      "name": "Balanced Experience Explorer",
+      "centroid": {
+        "Nature_Interest": 2.95,
+        "Culture_Interest": 2.99,
+        "Adventure_Interest": 3.06,
+        "Food_Interest": 2.88,
+        "Wellness_Interest": 2.98,
+        "Entertainment_Interest": 3.02,
+        "Shopping_Interest": 2.96,
+        "Family_Interest": 3.06
+      }
+    },
+    "2": {
+      "name": "Wellness & Nature Explorer",
+      "centroid": {
+        "Nature_Interest": 4.78,
+        "Culture_Interest": 1.98,
+        "Adventure_Interest": 1.98,
+        "Food_Interest": 1.17,
+        "Wellness_Interest": 4.84,
+        "Entertainment_Interest": 1.18,
+        "Shopping_Interest": 1.15,
+        "Family_Interest": 1.17
+      }
+    },
+    "3": {
+      "name": "Entertainment & Family Explorer",
+      "centroid": {
+        "Nature_Interest": 1.99,
+        "Culture_Interest": 1.18,
+        "Adventure_Interest": 1.99,
+        "Food_Interest": 1.97,
+        "Wellness_Interest": 1.17,
+        "Entertainment_Interest": 4.81,
+        "Shopping_Interest": 1.16,
+        "Family_Interest": 4.74
+      }
+    },
+    "4": {
+      "name": "Culinary & Shopping Explorer",
+      "centroid": {
+        "Nature_Interest": 1.24,
+        "Culture_Interest": 2.04,
+        "Adventure_Interest": 1.23,
+        "Food_Interest": 4.83,
+        "Wellness_Interest": 1.19,
+        "Entertainment_Interest": 1.96,
+        "Shopping_Interest": 4.82,
+        "Family_Interest": 1.21
+      }
+    },
+    "5": {
+      "name": "Nature & Adventure Explorer",
+      "centroid": {
+        "Nature_Interest": 4.84,
+        "Culture_Interest": 1.18,
+        "Adventure_Interest": 4.79,
+        "Food_Interest": 1.18,
+        "Wellness_Interest": 1.99,
+        "Entertainment_Interest": 2.04,
+        "Shopping_Interest": 1.19,
+        "Family_Interest": 1.97
+      }
+    }
+  }
+}
