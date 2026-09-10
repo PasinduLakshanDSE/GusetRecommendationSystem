@@ -63,6 +63,11 @@ type Guest = {
       message?: string;
       districtFilterApplied?: boolean;
     };
+    confidence?: {
+      score?: number;
+      label?: string;
+      basis?: string;
+    };
     summary?: string;
     services?: Recommendation[];
     places?: Recommendation[];
@@ -131,6 +136,9 @@ export default function AdvancedPreferenceAnalysisPage() {
   const segment = analysis?.segment?.name || "Personalized Stay Profile";
   const services = analysis?.services || [];
   const places = analysis?.places || [];
+  const fallbackConfidence = Math.min(89, 62 + Math.min(preferences.length, 3) * 7);
+  const confidenceScore = Math.round(analysis?.confidence?.score || fallbackConfidence);
+  const confidenceLabel = analysis?.confidence?.label || "Preference data confidence";
   const primaryPreference =
     preferences[0]?.name || "their selected preferences";
   const visitPurpose =
@@ -221,12 +229,15 @@ export default function AdvancedPreferenceAnalysisPage() {
           </div>
           <div className="confidence-card">
             <div className="confidence-ring">
-              <strong>91%</strong>
+              <strong>{confidenceScore}%</strong>
               <small>confidence</small>
             </div>
             <div>
-              <b>Profile ready for review</b>
-              <p>Based on stay details, interests, and selected preferences.</p>
+              <b>{confidenceLabel}</b>
+              <p>
+                {analysis?.confidence?.basis ||
+                  "Calculated from the submitted preference profile."}
+              </p>
             </div>
           </div>
         </section>

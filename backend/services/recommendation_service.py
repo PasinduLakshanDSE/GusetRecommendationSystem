@@ -3,6 +3,7 @@ from datetime import date, datetime
 import json
 
 import joblib
+import numpy as np
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
 
@@ -105,6 +106,7 @@ class RecommendationService:
             "services": services,
             "places": places,
             "summary": preference_profile["summary"],
+            "confidence": self._calculate_profile_confidence(preferences, ai_segment),
             "bookingRisk": self._assess_booking_risk(guest),
         }
 
@@ -157,6 +159,47 @@ class RecommendationService:
             "name": cluster_data.get("name", fallback_name),
             "source": "K-Means preference segmentation",
             "centroid": cluster_data.get("centroid", {}),
+        }
+
+    def _calculate_profile_confidence(self, preferences, ai_segment):
+        """Estimate how clearly the submitted preferences fit one K-Means segment.
+
+        This is a profile-fit confidence score, not a cancellation probability
+        or a claim that the model is certain about the guest's behaviour.
+        """
+        selected_count = sum(
+            float(preferences.get(feature, 1)) >= 4
+            for feature in PREFERENCE_FEATURES
+        )
+        coverage = sum(feature in preferences for feature in PREFERENCE_FEATURES) / len(PREFERENCE_FEATURES)
+
+        # Older/backup analyses may not have a loaded segmentation model. The
+        # score still reacts to supplied profile data instead of using a fixed UI value.
+        if not self.segment_model or not self.segment_scaler or "cluster" not in ai_segment:
+            score = round(52 + coverage * 22 + min(selected_count, 3) * 5)
+            return {
+                "score": max(55, min(89, score)),
+                "label": "Preference data confidence",
+                "basis": "Submitted preference coverage",
+            }
+
+        frame = pd.DataFrame(
+            [[preferences.get(feature, 1) for feature in PREFERENCE_FEATURES]],
+            columns=PREFERENCE_FEATURES,
+        )
+        point = self.segment_scaler.transform(frame)[0]
+        distances = np.linalg.norm(self.segment_model.cluster_centers_ - point, axis=1)
+        ordered = np.sort(distances)
+        nearest = float(ordered[0])
+        second_nearest = float(ordered[1]) if len(ordered) > 1 else nearest + 1
+        separation = max(0.0, min(1.0, (second_nearest - nearest) / max(second_nearest, 0.001)))
+        proximity = max(0.0, min(1.0, 1 - nearest / max(float(np.mean(distances)), 0.001)))
+
+        score = round(55 + coverage * 14 + separation * 17 + proximity * 10 + min(selected_count, 3) * 2)
+        return {
+            "score": max(55, min(96, score)),
+            "label": "Profile-fit confidence",
+            "basis": "K-Means segment fit and submitted preference coverage",
         }
 
     def _assess_booking_risk(self, guest):
