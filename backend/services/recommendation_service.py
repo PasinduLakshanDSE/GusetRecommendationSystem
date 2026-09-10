@@ -90,7 +90,10 @@ class RecommendationService:
         ai_segment = self._predict_preference_segment(preferences, preference_profile["name"])
         purpose_context = self._purpose_context(guest.get("purposeOfVisit", "Leisure"))
         services = self._recommend_services(preferences, guest.get("budget", "Medium"), purpose_context)
-        places, place_context = self._recommend_places(preferences, guest.get("district", ""), purpose_context)
+        # Places are guided by interests and location only. Visit purpose is
+        # deliberately excluded so a business guest who likes adventure still
+        # sees adventure destinations.
+        places, place_context = self._recommend_places(preferences, guest.get("district", ""))
 
         return {
             "segment": {
@@ -282,7 +285,7 @@ class RecommendationService:
                 return [district], "partial"
         return [], "none"
 
-    def _recommend_places(self, preferences, district, purpose_context):
+    def _recommend_places(self, preferences, district):
         data = self.destinations.copy()
         applied_districts, match_type = self._resolve_district(district)
         if applied_districts:
@@ -291,15 +294,11 @@ class RecommendationService:
         guest_vector = [[preferences[name] for name in PREFERENCE_FEATURES]]
         data["similarity"] = cosine_similarity(guest_vector, data[PLACE_FEATURES].values)[0]
         data["reliability"] = data["Review_Count"] / max(data["Review_Count"].max(), 1)
-        weights = purpose_context["weights"]
-        if weights:
-            total_weight = sum(weights.values())
-            data["purpose_score"] = sum(data[f"{feature}_Score"] * weight for feature, weight in weights.items()) / total_weight
-        else:
-            data["purpose_score"] = 0.5
-        data["match"] = (data["similarity"] * 0.75 + data["reliability"] * 0.10 + data["purpose_score"] * 0.15) * 100
+        # Destination relevance comes mostly from the selected interest vector;
+        # review reliability acts only as a small quality signal.
+        data["match"] = (data["similarity"] * 0.90 + data["reliability"] * 0.10) * 100
         places = [
-            {"name": row.Destination, "district": row.District, "category": row.Primary_Category, "match": round(float(row.match), 1), "purpose_match": round(float(row.purpose_score) * 100, 1)}
+            {"name": row.Destination, "district": row.District, "category": row.Primary_Category, "match": round(float(row.match), 1)}
             for row in data.sort_values("match", ascending=False).head(3).itertuples()
         ]
         place_context = {

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { Link, useParams } from "react-router-dom";
 import {
   Activity,
@@ -20,6 +20,14 @@ import {
 } from "lucide-react";
 import "./advancedPreferenceAnalysisPage.css";
 import "./placeContext.css";
+import "./guestPersona.css";
+import adventurePersona from "../../assets/adventure-persona.png";
+import businessTravelerPersona from "../../assets/business-traveler-women.png";
+import businessGuestPersona from "../../assets/business-traveler-men.png";
+import explorerGuestPersona from "../../assets/purpose-leisure.png";
+import familyPersona from "../../assets/family-persona.png";
+import honeymoonPersona from "../../assets/Hanemon Cupole.png";
+import wellnessNaturePersona from "../../assets/wellness-nature-persona.png";
 
 type Recommendation = {
   id?: string;
@@ -39,6 +47,7 @@ type Guest = {
   budget?: string;
   roomPreference?: string;
   foodPreference?: string;
+  purposeOfVisit?: string;
   interests?: string[];
   specialRequests?: string;
   accessibilityNeeds?: string;
@@ -124,6 +133,11 @@ export default function AdvancedPreferenceAnalysisPage() {
   const places = analysis?.places || [];
   const primaryPreference =
     preferences[0]?.name || "their selected preferences";
+  const visitPurpose =
+    analysis?.purposeContext?.purpose || guest.purposeOfVisit || "Leisure";
+  // Persona is a visual representation of why the guest is travelling.
+  // It must not alter the K-Means segment, which is based on interests only.
+  const persona = getPersonaForPurpose(visitPurpose, guest.fullName);
   const arrival = guest.arrivalDate
     ? new Date(guest.arrivalDate).toLocaleDateString(undefined, {
         month: "short",
@@ -242,6 +256,13 @@ export default function AdvancedPreferenceAnalysisPage() {
             value={guest.accessibilityNeeds ? "Review need" : "Standard"}
           />
         </section>
+        <section className="persona-showcase">
+          <GuestPersona
+            image={persona.image}
+            alt={persona.alt}
+            purpose={visitPurpose}
+          />
+        </section>
         <section className="analysis-grid">
           <article className="panel preference-panel">
             <div className="panel-heading">
@@ -320,6 +341,90 @@ export default function AdvancedPreferenceAnalysisPage() {
         />
       </section>
     </main>
+  );
+}
+
+function getPersonaForPurpose(purpose: string, guestName: string) {
+  const normalizedPurpose = purpose.toLowerCase();
+
+  if (normalizedPurpose.includes("honeymoon") || normalizedPurpose.includes("romantic"))
+    return { image: honeymoonPersona, alt: "3D couple on a honeymoon holiday" };
+  if (normalizedPurpose.includes("business")) {
+    const useAlternateBusinessPersona =
+      [...guestName].reduce((total, character) => total + character.charCodeAt(0), 0) % 2 === 0;
+    return useAlternateBusinessPersona
+      ? { image: businessGuestPersona, alt: "3D business traveler" }
+      : { image: businessTravelerPersona, alt: "3D business traveler" };
+  }
+  if (normalizedPurpose.includes("family"))
+    return { image: familyPersona, alt: "3D family holiday travelers" };
+  if (normalizedPurpose.includes("adventure"))
+    return { image: adventurePersona, alt: "3D adventure traveler" };
+  if (normalizedPurpose.includes("wellness"))
+    return { image: wellnessNaturePersona, alt: "3D wellness traveler" };
+  return { image: explorerGuestPersona, alt: "3D leisure traveler" };
+}
+
+function GuestPersona({
+  image,
+  alt,
+  purpose,
+}: {
+  image: string;
+  alt: string;
+  purpose: string;
+}) {
+  const [rotation, setRotation] = useState(0);
+  const [isInteracting, setIsInteracting] = useState(false);
+  const startX = useRef(0);
+  const startRotation = useRef(0);
+
+  useEffect(() => {
+    if (isInteracting) return undefined;
+    let frame = 0;
+    const animate = (time: number) => {
+      setRotation(Math.sin(time / 950) * 13);
+      frame = requestAnimationFrame(animate);
+    };
+    frame = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(frame);
+  }, [isInteracting]);
+
+  const updateRotation = (movement: number) => {
+    setRotation(Math.max(-28, Math.min(28, startRotation.current + movement / 4)));
+  };
+
+  return (
+    <div className="persona-image-only">
+      <span className="persona-purpose-badge">
+        <i /> {purpose} visit
+      </span>
+      <div
+        className="persona-viewer"
+        onPointerDown={(event) => {
+          event.currentTarget.setPointerCapture(event.pointerId);
+          startX.current = event.clientX;
+          startRotation.current = rotation;
+          setIsInteracting(true);
+        }}
+        onPointerMove={(event) => {
+          if (isInteracting) updateRotation(event.clientX - startX.current);
+        }}
+        onPointerUp={() => setIsInteracting(false)}
+        onPointerCancel={() => setIsInteracting(false)}
+        onWheel={(event) => {
+          event.preventDefault();
+          startRotation.current = rotation;
+          updateRotation(-event.deltaY / 2);
+          setIsInteracting(true);
+          window.setTimeout(() => setIsInteracting(false), 900);
+        }}
+      >
+        <div className="persona-3d-stage" style={{ transform: `perspective(680px) rotateY(${rotation}deg)` }}>
+          <img src={image} alt={alt} draggable={false} />
+        </div>
+      </div>
+    </div>
   );
 }
 
