@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { LucideIcon } from "lucide-react";
 import {
@@ -45,37 +45,6 @@ const navigationItems: NavigationItem[] = [
   { label: "Settings", icon: Settings },
 ];
 
-const metrics = [
-  {
-    label: "Guest profiles",
-    value: "18",
-    detail: "5 newly submitted",
-    icon: UsersRound,
-    tone: "teal",
-  },
-  {
-    label: "Pending review",
-    value: "5",
-    detail: "Require staff attention",
-    icon: CalendarClock,
-    tone: "amber",
-  },
-  {
-    label: "AI recommendations",
-    value: "24",
-    detail: "Generated for current stays",
-    icon: Sparkles,
-    tone: "blue",
-  },
-  {
-    label: "Arrival risk alerts",
-    value: "2",
-    detail: "Bookings needing follow-up",
-    icon: CircleAlert,
-    tone: "violet",
-  },
-];
-
 const guests = [
   {
     initials: "MP",
@@ -115,18 +84,11 @@ const arrivals = [
   { time: "16:45", name: "Emma Williams", detail: "Honeymoon package" },
 ];
 
-const navigationPaths: Record<string, string> = {
-  Dashboard: "/Hotelstaffdashboard",
-  "Guest Profile": "/GuestDetailsForm",
-  "Preference Analysis": "/GuestDetailsForm",
-  Recommendations: "/Hotelstaffdashboard",
-  "Booking Risk": "/Hotelstaffdashboard",
-  "Review Intelligence": "/Hotelstaffdashboard",
-  "Recommendation History": "/Hotelstaffdashboard",
-  Settings: "/Hotelstaffdashboard",
-};
-
 export default function ModernHotelStaffDashboard() {
+  // Legacy mock data remains only as a design reference; all visible dashboard
+  // values below are calculated from the backend guest API.
+  void guests;
+  void arrivals;
   const navigate = useNavigate();
   const [activeNavigation, setActiveNavigation] = useState("Dashboard");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -134,6 +96,9 @@ export default function ModernHotelStaffDashboard() {
   const [databaseGuests, setDatabaseGuests] = useState<any[]>([]);
   const [hotelIntelligence, setHotelIntelligence] = useState<HotelIntelligence | null>(null);
   const [selectedGuest, setSelectedGuest] = useState<any>(null);
+  const [showNotifications, setShowNotifications] = useState(false);
+  const [onlyPending, setOnlyPending] = useState(false);
+  const queueRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     fetch("http://localhost:8000/api/guests")
@@ -147,24 +112,37 @@ export default function ModernHotelStaffDashboard() {
       .then(setHotelIntelligence)
       .catch(() => setHotelIntelligence(null));
   }, []);
-  const [submittedGuest] = useState(() => {
-    const savedGuest = sessionStorage.getItem("latestGuestAnalysis");
-    return savedGuest ? JSON.parse(savedGuest) : null;
-  });
-
-  const dashboardGuests = submittedGuest
-    ? [{
-        initials: submittedGuest.name.split(" ").map((name: string) => name[0]).join("").slice(0, 2),
-        name: submittedGuest.name,
-        detail: `${submittedGuest.country} · ${submittedGuest.adults} guest${submittedGuest.adults === 1 ? "" : "s"}`,
-        room: submittedGuest.district || "Hotel stay",
-        budget: `${submittedGuest.budget} budget`,
-        recommendation: submittedGuest.analysis.services[0].name,
-        status: submittedGuest.status,
-        tone: "ready",
-      }, ...guests]
-    : guests;
-  void dashboardGuests;
+  const pendingGuests = databaseGuests.filter((guest) => !guest.notificationRead || guest.status === "Ready to review");
+  const filteredGuests = useMemo(() => {
+    const query = search.trim().toLowerCase();
+    return databaseGuests.filter((guest) => {
+      const matchesSearch = !query || [guest.fullName, guest.country, guest.aiAnalysis?.services?.[0]?.name]
+        .filter(Boolean).some((value) => String(value).toLowerCase().includes(query));
+      return matchesSearch && (!onlyPending || pendingGuests.some((item) => item._id === guest._id));
+    });
+  }, [databaseGuests, onlyPending, pendingGuests, search]);
+  const upcomingArrivals = useMemo(() => databaseGuests.filter((guest) => guest.arrivalDate)
+    .sort((a, b) => new Date(a.arrivalDate).getTime() - new Date(b.arrivalDate).getTime()).slice(0, 3), [databaseGuests]);
+  const liveMetrics = [
+    { label: "Guest profiles", value: String(databaseGuests.length), detail: `${pendingGuests.length} awaiting attention`, icon: UsersRound, tone: "teal" },
+    { label: "Pending review", value: String(pendingGuests.length), detail: "Require staff attention", icon: CalendarClock, tone: "amber" },
+    { label: "AI recommendations", value: String(databaseGuests.reduce((total, guest) => total + (guest.aiAnalysis?.services?.length || 0), 0)), detail: "Generated for guest stays", icon: Sparkles, tone: "blue" },
+    { label: "Arrival risk alerts", value: String(databaseGuests.filter((guest) => (guest.aiAnalysis?.bookingRisk?.probability || 0) >= 28).length), detail: "Bookings needing follow-up", icon: CircleAlert, tone: "violet" },
+  ];
+  const today = new Date().toLocaleDateString(undefined, { day: "numeric", month: "long", year: "numeric" });
+  const openQueue = () => queueRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  const handleNavigation = (label: string) => {
+    setActiveNavigation(label);
+    setIsSidebarOpen(false);
+    if (label === "Dashboard") return navigate("/Hotelstaffdashboard");
+    if (label === "Booking Risk") setOnlyPending(true);
+    if (label === "Review Intelligence") {
+      document.querySelector(".review-intelligence-panel")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      return;
+    }
+    if (label === "Settings") return;
+    openQueue();
+  };
 
   return (
     <main className="hotel-dashboard">
@@ -196,9 +174,7 @@ export default function ModernHotelStaffDashboard() {
                 type="button"
                 className={activeNavigation === item.label ? "selected" : ""}
                 onClick={() => {
-                  setActiveNavigation(item.label);
-                  setIsSidebarOpen(false);
-                  navigate(navigationPaths[item.label]);
+                  handleNavigation(item.label);
                 }}
               >
                 <Icon size={19} />
@@ -250,16 +226,28 @@ export default function ModernHotelStaffDashboard() {
               className="notification"
               type="button"
               aria-label="Notifications"
+              onClick={() => setShowNotifications((open) => !open)}
             >
               <Bell size={19} />
-              <b>{databaseGuests.filter((guest) => !guest.notificationRead).length}</b>
+              <b>{pendingGuests.length}</b>
             </button>
             <div className="date-card">
               <small>Today</small>
-              <strong>30 August 2026</strong>
+              <strong>{today}</strong>
             </div>
           </div>
         </header>
+        {showNotifications && (
+          <section className="dashboard-notifications">
+            <b>Guest attention queue</b>
+            {pendingGuests.slice(0, 4).map((guest) => (
+              <button key={guest._id} type="button" onClick={() => navigate(`/guest-details/${guest._id}`)}>
+                <span>{guest.fullName}</span><small>{guest.status || "New guest profile"}</small>
+              </button>
+            ))}
+            {!pendingGuests.length && <small>There are no pending guest notifications.</small>}
+          </section>
+        )}
 
         <section className="experience-hero">
           <div className="hero-copy">
@@ -277,10 +265,10 @@ export default function ModernHotelStaffDashboard() {
               and make every arrival feel considered.
             </p>
             <div className="hero-buttons">
-              <button type="button" className="primary-action">
+              <button type="button" className="primary-action" onClick={openQueue}>
                 Review guest profiles <ArrowRight size={17} />
               </button>
-              <button type="button" className="secondary-action">
+              <button type="button" className="secondary-action" onClick={openQueue}>
                 View recommendations
               </button>
             </div>
@@ -289,13 +277,13 @@ export default function ModernHotelStaffDashboard() {
             <div>
               <UserRound size={29} />
             </div>
-            <strong>8</strong>
+            <strong>{pendingGuests.length}</strong>
             <span>guest profiles awaiting attention</span>
           </div>
         </section>
 
         <section className="metric-grid">
-          {metrics.map((metric) => {
+          {liveMetrics.map((metric) => {
             const Icon = metric.icon;
             return (
               <article className="metric-card" key={metric.label}>
@@ -313,7 +301,7 @@ export default function ModernHotelStaffDashboard() {
         </section>
 
         <section className="dashboard-grid">
-          <article className="review-panel">
+          <article className="review-panel" ref={queueRef}>
             <div className="panel-heading">
               <div>
                 <span>Guest review queue</span>
@@ -323,7 +311,7 @@ export default function ModernHotelStaffDashboard() {
                   plan.
                 </p>
               </div>
-              <button type="button">
+              <button type="button" onClick={() => { setSearch(""); setOnlyPending(false); }}>
                 View all <ChevronRight size={17} />
               </button>
             </div>
@@ -335,7 +323,9 @@ export default function ModernHotelStaffDashboard() {
                 onChange={(event) => setSearch(event.target.value)}
                 placeholder="Search guest, country, or recommendation"
               />
-              <button type="button">All guests</button>
+              <button type="button" onClick={() => setOnlyPending((value) => !value)}>
+                {onlyPending ? "Pending only" : "All guests"}
+              </button>
             </label>
             <div className="guest-list">
               <div className="guest-list-head">
@@ -345,8 +335,8 @@ export default function ModernHotelStaffDashboard() {
                 <span>Status</span>
                 <span />
               </div>
-              {databaseGuests.map((guest) => (
-                <article className="guest-row" key={guest._id} onClick={() => navigate(`/guest-details/${guest._id}`)}>
+              {filteredGuests.map((guest) => (
+                <article className="guest-row" key={guest._id} onClick={() => setSelectedGuest(guest)}>
                   <div className="guest-identity">
                     <b>{guest.fullName.split(" ").map((name: string) => name[0]).join("").slice(0, 2)}</b>
                     <span>
@@ -370,11 +360,13 @@ export default function ModernHotelStaffDashboard() {
                     className="guest-arrow"
                     type="button"
                     aria-label={`Open ${guest.fullName}`}
+                    onClick={(event) => { event.stopPropagation(); navigate(`/guest-details/${guest._id}`); }}
                   >
                     <ChevronRight size={20} />
                   </button>
                 </article>
               ))}
+              {!filteredGuests.length && <p className="dashboard-empty">No guest profiles match this filter.</p>}
             </div>
           </article>
 
@@ -385,25 +377,26 @@ export default function ModernHotelStaffDashboard() {
                   <span>Today’s arrivals</span>
                   <h3>Make arrivals seamless</h3>
                 </div>
-                <b>6 arrivals</b>
+                <b>{upcomingArrivals.length} arrivals</b>
               </div>
               <div className="arrival-list">
-                {arrivals.map((arrival) => (
+                {upcomingArrivals.map((guest) => (
                   <button
                     type="button"
                     className="arrival-row"
-                    key={arrival.name}
+                    key={guest._id}
+                    onClick={() => navigate(`/guest-details/${guest._id}`)}
                   >
-                    <strong>{arrival.time}</strong>
+                    <strong>{guest.arrivalDate ? new Date(guest.arrivalDate).toLocaleDateString(undefined, { month: "short", day: "numeric" }) : "TBD"}</strong>
                     <span>
-                      <b>{arrival.name}</b>
-                      <small>{arrival.detail}</small>
+                      <b>{guest.fullName}</b>
+                      <small>{guest.roomPreference || "Room preparation pending"}</small>
                     </span>
                     <ChevronRight size={18} />
                   </button>
                 ))}
               </div>
-              <button className="arrival-link" type="button">
+              <button className="arrival-link" type="button" onClick={openQueue}>
                 Open arrival board <ArrowRight size={16} />
               </button>
             </article>
@@ -413,10 +406,9 @@ export default function ModernHotelStaffDashboard() {
               </span>
               <small>AI recommendation focus</small>
               <h3>
-                2 family profiles would benefit from activity planning before
-                check-in.
+                {databaseGuests.filter((guest) => (guest.interests || []).includes("Family") || guest.children > 0).length} family profiles would benefit from activity planning before check-in.
               </h3>
-              <button type="button">
+              <button type="button" onClick={openQueue}>
                 Review suggestions <ArrowRight size={16} />
               </button>
             </article>

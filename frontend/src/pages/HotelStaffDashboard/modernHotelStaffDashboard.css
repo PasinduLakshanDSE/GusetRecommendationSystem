@@ -130,6 +130,7 @@
   gap: 25px;
   margin-bottom: 31px;
 }
+.dashboard-notifications { width: min(360px, 100%); display: grid; gap: 7px; margin: -20px 0 20px auto; padding: 14px; border: 1px solid #cfe5e2; border-radius: 14px; background: #fff; box-shadow: 0 10px 24px rgba(17, 61, 79, .1); }.dashboard-notifications > b { color: #087f75; font-size: 12px; }.dashboard-notifications button { display: flex; justify-content: space-between; gap: 10px; padding: 8px 0; border-bottom: 1px solid #edf2f4; background: transparent; color: var(--ink); text-align: left; }.dashboard-notifications button span { font-size: 12px; font-weight: 800; }.dashboard-notifications button small, .dashboard-notifications > small { color: var(--muted); font-size: 11px; }.dashboard-empty { padding: 24px 0; color: var(--muted); font-size: 13px; text-align: center; }
 .topbar-title {
   display: flex;
   gap: 15px;
