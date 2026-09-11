@@ -14,6 +14,7 @@ DESTINATIONS_PATH = PROJECT_ROOT / "data" / "processed" / "destination_profiles.
 SEGMENT_MODEL_PATH = PROJECT_ROOT / "models" / "preference_segment_kmeans.joblib"
 SEGMENT_SCALER_PATH = PROJECT_ROOT / "models" / "preference_segment_scaler.joblib"
 SEGMENT_METADATA_PATH = PROJECT_ROOT / "models" / "preference_segment_metadata.json"
+STAFF_ACTION_MODEL_PATH = PROJECT_ROOT / "models" / "staff_action_recommender.joblib"
 
 PREFERENCE_FEATURES = [
     "Nature_Interest", "Culture_Interest", "Adventure_Interest", "Food_Interest",
@@ -80,10 +81,13 @@ class RecommendationService:
         self.segment_model = None
         self.segment_scaler = None
         self.segment_metadata = {}
+        self.staff_action_model = None
         if all(path.exists() for path in [SEGMENT_MODEL_PATH, SEGMENT_SCALER_PATH, SEGMENT_METADATA_PATH]):
             self.segment_model = joblib.load(SEGMENT_MODEL_PATH)
             self.segment_scaler = joblib.load(SEGMENT_SCALER_PATH)
             self.segment_metadata = json.loads(SEGMENT_METADATA_PATH.read_text(encoding="utf-8"))
+        if STAFF_ACTION_MODEL_PATH.exists():
+            self.staff_action_model = joblib.load(STAFF_ACTION_MODEL_PATH)
 
     def analyze_guest(self, guest):
         preferences = guest["preferences"]
@@ -105,6 +109,7 @@ class RecommendationService:
             "placeContext": place_context,
             "services": services,
             "places": places,
+            "staffActionPlan": self._recommend_staff_actions(guest, preferences, purpose_context),
             "summary": preference_profile["summary"],
             "confidence": self._calculate_profile_confidence(preferences, ai_segment),
             "bookingRisk": self._assess_booking_risk(guest),
@@ -201,6 +206,125 @@ class RecommendationService:
             "label": "Profile-fit confidence",
             "basis": "K-Means segment fit and submitted preference coverage",
         }
+
+    def _recommend_staff_actions(self, guest, preferences, purpose_context):
+        """Rank staff actions with the trained multi-label recommendation model."""
+        if not self.staff_action_model:
+            return {
+                "source": "Fallback staff guidance",
+                "actions": [
+                    {"action": action, "match": 75, "reason": "Matches the stated visit purpose."}
+                    for action in purpose_context.get("staffActions", [])
+                ],
+            }
+
+        payload = self.staff_action_model
+        purpose = purpose_context.get("purpose", "Leisure")
+        budget_value = BUDGET_LEVELS.get(guest.get("budget", "Medium"), 2)
+        values = {feature.replace("_Interest", ""): float(preferences.get(feature, 1)) for feature in PREFERENCE_FEATURES}
+        values.update({
+            "stayDuration": int(guest.get("stayDuration") or 1),
+            "adults": int(guest.get("adults") or 1),
+            "children": int(guest.get("children") or 0),
+            "budgetValue": budget_value,
+            "foodPreference": int(bool(guest.get("foodPreference"))),
+            "accessibility": int(bool(guest.get("accessibilityNeeds"))),
+        })
+        for known_purpose in PURPOSE_CONTEXT:
+            values[f"purpose__{known_purpose}"] = int(purpose == known_purpose)
+        frame = pd.DataFrame([[values.get(column, 0) for column in payload["feature_columns"]]], columns=payload["feature_columns"])
+        probabilities = payload["model"].predict_proba(frame)[0]
+        reasons = self._staff_action_reasons(guest, preferences, purpose)
+        ranked = sorted(zip(payload["actions"], probabilities), key=lambda item: item[1], reverse=True)
+        probability_by_action = dict(ranked)
+        essential_actions = self._essential_staff_actions(guest, preferences, purpose)
+        essential_ranked = sorted(
+            ((action, probability_by_action[action]) for action in essential_actions if action in probability_by_action),
+            key=lambda item: item[1],
+            reverse=True,
+        )
+        ordered = []
+        for action, probability in essential_ranked + ranked:
+            if action not in {item[0] for item in ordered}:
+                ordered.append((action, probability))
+        # Always show at least five actions. If the guest selected many
+        # distinct interests, keep every required preference action visible.
+        plan_size = max(5, len(essential_ranked))
+        actions = [
+            {
+                "action": action,
+                # Random-forest probabilities trained on a small demonstration
+                # dataset can be overconfident. Use this as a bounded ranking
+                # score in the UI rather than presenting it as certainty.
+                "match": round(60 + float(probability) * 32),
+                "reason": reasons.get(action, "Recommended from the combined guest context."),
+            }
+            for action, probability in ordered[:plan_size]
+        ]
+        return {
+            "source": "Trained multi-label staff-action recommender with preference coverage",
+            "actions": actions,
+        }
+
+    def _essential_staff_actions(self, guest, preferences, purpose):
+        """Ensure an action plan visibly addresses every strong guest preference."""
+        actions = []
+        purpose_actions = {
+            "Business": ["Prepare reliable Wi-Fi and an in-room workspace", "Arrange express check-in and flexible arrival support"],
+            "Family Holiday": ["Confirm family room setup and child amenities"],
+            "Honeymoon": ["Arrange a romantic welcome and private dining option"],
+            "Wellness": ["Offer spa or wellness appointment times"],
+            "Adventure": ["Confirm guided adventure safety, weather, and transport"],
+        }
+        actions.extend(purpose_actions.get(purpose, []))
+        preference_actions = {
+            "Nature_Interest": "Prepare a nature activity briefing and suitable timing",
+            "Culture_Interest": "Share a local culture and heritage itinerary",
+            "Adventure_Interest": "Confirm guided adventure safety, weather, and transport",
+            "Food_Interest": "Confirm dietary dining options before arrival",
+            "Wellness_Interest": "Offer spa or wellness appointment times",
+            "Entertainment_Interest": "Curate local entertainment options for the preferred time",
+            "Shopping_Interest": "Prepare a local shopping and artisan-market guide",
+            "Family_Interest": "Share child-friendly activity times and transport options",
+        }
+        actions.extend(
+            action for feature, action in preference_actions.items()
+            if float(preferences.get(feature, 1)) >= 4
+        )
+        if guest.get("foodPreference"):
+            actions.append("Confirm dietary dining options before arrival")
+        if guest.get("accessibilityNeeds"):
+            actions.append("Review accessibility needs and prepare appropriate support")
+        return list(dict.fromkeys(actions))
+
+    def _staff_action_reasons(self, guest, preferences, purpose):
+        reasons = {}
+        if purpose == "Business":
+            reasons["Prepare reliable Wi-Fi and an in-room workspace"] = "Business visit context requires a productive setup."
+            reasons["Arrange express check-in and flexible arrival support"] = "Business guests often need a time-efficient arrival."
+        if purpose == "Family Holiday" or int(guest.get("children") or 0) > 0:
+            reasons["Confirm family room setup and child amenities"] = "Family context and guest count indicate shared stay needs."
+            reasons["Share child-friendly activity times and transport options"] = "Family-friendly timing supports the planned stay."
+        if purpose == "Honeymoon":
+            reasons["Arrange a romantic welcome and private dining option"] = "Honeymoon context supports a private, memorable arrival."
+        if float(preferences.get("Adventure_Interest", 1)) >= 4:
+            reasons["Confirm guided adventure safety, weather, and transport"] = "Adventure is one of the guest's strongest interests."
+        if float(preferences.get("Nature_Interest", 1)) >= 4:
+            reasons["Prepare a nature activity briefing and suitable timing"] = "Nature is one of the guest's strongest interests."
+        if float(preferences.get("Culture_Interest", 1)) >= 4:
+            reasons["Share a local culture and heritage itinerary"] = "Culture is one of the guest's strongest interests."
+        if float(preferences.get("Wellness_Interest", 1)) >= 4 or purpose == "Wellness":
+            reasons["Offer spa or wellness appointment times"] = "Wellness preference or visit purpose is present."
+            reasons["Prepare a quiet room and restful arrival experience"] = "A calm arrival supports the guest's wellbeing preferences."
+        if guest.get("foodPreference"):
+            reasons["Confirm dietary dining options before arrival"] = "A dining preference was submitted with the guest profile."
+        if guest.get("accessibilityNeeds"):
+            reasons["Review accessibility needs and prepare appropriate support"] = "Accessibility support was requested by the guest."
+        if float(preferences.get("Entertainment_Interest", 1)) >= 4:
+            reasons["Curate local entertainment options for the preferred time"] = "Entertainment is one of the guest's strongest interests."
+        if float(preferences.get("Shopping_Interest", 1)) >= 4:
+            reasons["Prepare a local shopping and artisan-market guide"] = "Shopping is one of the guest's strongest interests."
+        return reasons
 
     def _assess_booking_risk(self, guest):
         """Return an explainable booking-risk signal for hotel staff follow-up."""

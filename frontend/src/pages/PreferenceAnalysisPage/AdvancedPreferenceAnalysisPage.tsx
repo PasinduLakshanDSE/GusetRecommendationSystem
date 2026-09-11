@@ -37,6 +37,11 @@ type Recommendation = {
   duration_hours?: number;
   match?: number;
 };
+type StaffAction = {
+  action: string;
+  match?: number;
+  reason?: string;
+};
 type Guest = {
   _id: string;
   fullName: string;
@@ -71,6 +76,10 @@ type Guest = {
     summary?: string;
     services?: Recommendation[];
     places?: Recommendation[];
+    staffActionPlan?: {
+      source?: string;
+      actions?: StaffAction[];
+    };
   };
 };
 
@@ -153,17 +162,16 @@ export default function AdvancedPreferenceAnalysisPage() {
         year: "numeric",
       })
     : "Arrival to be confirmed";
-  const actionPlan = [
-    `Prepare a ${guest.roomPreference || "comfortable"} room before arrival.`,
-    guest.foodPreference
-      ? `Share ${guest.foodPreference} dining options with the guest.`
-      : "Confirm dining preferences at check-in.",
-    `Offer the top ${primaryPreference} recommendation during the welcome conversation.`,
-    ...(analysis?.purposeContext?.staffActions || []),
-    guest.specialRequests
-      ? `Review the guest request: ${guest.specialRequests}`
-      : "Offer a personal welcome and confirm the stay plan.",
-  ].slice(0, 5);
+  const actionPlan: StaffAction[] = analysis?.staffActionPlan?.actions?.length
+    ? analysis.staffActionPlan.actions
+    : [
+        { action: `Prepare a ${guest.roomPreference || "comfortable"} room before arrival.`, match: 78 },
+        { action: guest.foodPreference ? `Confirm ${guest.foodPreference} dining options before arrival.` : "Confirm dining preferences at check-in.", match: 76 },
+        { action: `Offer the top ${primaryPreference} recommendation during the welcome conversation.`, match: 76 },
+        ...(analysis?.purposeContext?.staffActions || []).map((action) => ({ action, match: 74 })),
+        { action: guest.specialRequests ? `Review the guest request: ${guest.specialRequests}` : "Offer a personal welcome and confirm the stay plan.", match: 72 },
+        { action: "Confirm arrival time and preferred service timing before check-in.", match: 70 },
+      ].slice(0, 5);
   return (
     <main className="preference-analysis-page">
       <aside className="analysis-sidebar">
@@ -312,11 +320,18 @@ export default function AdvancedPreferenceAnalysisPage() {
               </div>
               <Lightbulb size={23} />
             </div>
+            <p className="action-model-note">
+              {analysis?.staffActionPlan?.source || "Personalized staff guidance"}
+            </p>
             <ol>
-              {actionPlan.map((action) => (
-                <li key={action}>
+              {actionPlan.map((item) => (
+                <li key={item.action} className="ai-action-item">
                   <CheckCircle2 size={17} />
-                  <span>{action}</span>
+                  <span>
+                    <b>{item.action}</b>
+                    {item.reason && <small>{item.reason}</small>}
+                  </span>
+                  {item.match && <em>{item.match}%</em>}
                 </li>
               ))}
             </ol>

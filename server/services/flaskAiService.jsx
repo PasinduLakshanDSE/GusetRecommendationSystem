@@ -33,6 +33,8 @@ async function analyzeGuest(guest, bookingHistory = {}) {
       purposeOfVisit: guest.purposeOfVisit,
       roomPreference: guest.roomPreference,
       foodPreference: guest.foodPreference,
+      accessibilityNeeds: guest.accessibilityNeeds,
+      specialRequests: guest.specialRequests,
       bookingHistory,
       preferences,
     },

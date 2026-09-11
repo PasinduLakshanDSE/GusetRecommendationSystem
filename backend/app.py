@@ -1,11 +1,13 @@
 from flask import Flask
 
 from routes.guests import guests_bp
+from routes.hotel_intelligence import hotel_intelligence_bp
 
 
 def create_app():
     app = Flask(__name__)
     app.register_blueprint(guests_bp, url_prefix="/api/guests")
+    app.register_blueprint(hotel_intelligence_bp, url_prefix="/api/hotel-intelligence")
 
     @app.after_request
     def add_cors_headers(response):

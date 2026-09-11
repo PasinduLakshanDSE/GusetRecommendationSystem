@@ -27,6 +27,12 @@ type NavigationItem = {
   label: string;
   icon: LucideIcon;
 };
+type HotelIntelligence = {
+  source?: string;
+  scope?: string;
+  aspects?: { name: string; sentimentScore: number; negativePercentage: number; status: string }[];
+  alerts?: { aspect: string; message: string }[];
+};
 
 const navigationItems: NavigationItem[] = [
   { label: "Dashboard", icon: LayoutDashboard },
@@ -126,6 +132,7 @@ export default function ModernHotelStaffDashboard() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [search, setSearch] = useState("");
   const [databaseGuests, setDatabaseGuests] = useState<any[]>([]);
+  const [hotelIntelligence, setHotelIntelligence] = useState<HotelIntelligence | null>(null);
   const [selectedGuest, setSelectedGuest] = useState<any>(null);
 
   useEffect(() => {
@@ -133,6 +140,12 @@ export default function ModernHotelStaffDashboard() {
       .then((response) => response.json())
       .then((data) => setDatabaseGuests(data))
       .catch(() => setDatabaseGuests([]));
+  }, []);
+  useEffect(() => {
+    fetch("http://localhost:8000/api/hotel-intelligence")
+      .then((response) => (response.ok ? response.json() : null))
+      .then(setHotelIntelligence)
+      .catch(() => setHotelIntelligence(null));
   }, []);
   const [submittedGuest] = useState(() => {
     const savedGuest = sessionStorage.getItem("latestGuestAnalysis");
@@ -406,6 +419,37 @@ export default function ModernHotelStaffDashboard() {
               <button type="button">
                 Review suggestions <ArrowRight size={16} />
               </button>
+            </article>
+            <article className="review-intelligence-panel">
+              <div className="review-intelligence-heading">
+                <div>
+                  <span>Review intelligence</span>
+                  <h3>Hotel service sentiment</h3>
+                </div>
+                <Compass size={19} />
+              </div>
+              {hotelIntelligence ? (
+                <>
+                  <small className="review-intelligence-source">{hotelIntelligence.source}</small>
+                  <div className="aspect-list">
+                    {(hotelIntelligence.aspects || []).slice(0, 4).map((aspect) => (
+                      <div className="aspect-row" key={aspect.name}>
+                        <span>{aspect.name}</span>
+                        <b className={aspect.sentimentScore < 5 ? "attention" : ""}>
+                          {aspect.sentimentScore > 0 ? "+" : ""}{aspect.sentimentScore}%
+                        </b>
+                      </div>
+                    ))}
+                  </div>
+                  {(hotelIntelligence.alerts || []).slice(0, 1).map((alert) => (
+                    <p className="review-alert" key={alert.aspect}>
+                      <CircleAlert size={15} /> <span><b>{alert.aspect}:</b> {alert.message}</span>
+                    </p>
+                  ))}
+                </>
+              ) : (
+                <p className="review-intelligence-empty">Start Flask AI service to load review intelligence.</p>
+              )}
             </article>
           </aside>
         </section>

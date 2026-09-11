@@ -1,0 +1,15 @@
+==============================================================
+ GUESTAI STAFF ACTION MODEL - TRAINING SUMMARY
+==============================================================
+ Dataset type           : Synthetic labelled demonstration data
+ Total guest profiles   : 3200
+ Input features         : 20
+ Staff action labels    : 15
+ Training profiles      : 2560
+ Validation profiles    : 640
+ Validation micro-F1    : 100.00%
+ Validation Hamming loss: 0.0000
+ Model                  : One-vs-Rest Random Forest multi-label classifier
+==============================================================
+ Note: Results validate synthetic prototype labels; use
+ staff-approved historical data for a production evaluation.
