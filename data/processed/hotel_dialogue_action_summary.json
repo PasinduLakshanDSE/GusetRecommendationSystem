@@ -1,0 +1,21 @@
+{
+  "dataset": "DA_MultiWOZ_hotel (Hugging Face)",
+  "task": "Next hotel dialogue action prediction",
+  "totalRows": 3498,
+  "trainingRows": 2798,
+  "testRows": 700,
+  "algorithm": "TF-IDF (1-2 grams) + Logistic Regression",
+  "accuracy": 0.4686,
+  "macroF1": 0.2164,
+  "actionLabels": [
+    "Booking-Book",
+    "Booking-Inform",
+    "Booking-NoBook",
+    "Booking-Request",
+    "Hotel-Inform",
+    "Hotel-NoOffer",
+    "Hotel-Recommend",
+    "Hotel-Request",
+    "Hotel-Select"
+  ]
+}

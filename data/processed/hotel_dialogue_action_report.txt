@@ -1,0 +1,39 @@
+HOTEL DIALOGUE ACTION MODEL REPORT
+
+{
+  "dataset": "DA_MultiWOZ_hotel (Hugging Face)",
+  "task": "Next hotel dialogue action prediction",
+  "totalRows": 3498,
+  "trainingRows": 2798,
+  "testRows": 700,
+  "algorithm": "TF-IDF (1-2 grams) + Logistic Regression",
+  "accuracy": 0.4686,
+  "macroF1": 0.2164,
+  "actionLabels": [
+    "Booking-Book",
+    "Booking-Inform",
+    "Booking-NoBook",
+    "Booking-Request",
+    "Hotel-Inform",
+    "Hotel-NoOffer",
+    "Hotel-Recommend",
+    "Hotel-Request",
+    "Hotel-Select"
+  ]
+}
+
+                 precision    recall  f1-score   support
+
+   Booking-Book       0.29      0.70      0.41        44
+ Booking-Inform       0.00      0.00      0.00        14
+ Booking-NoBook       0.00      0.00      0.00         3
+Booking-Request       0.15      0.28      0.19        32
+   Hotel-Inform       0.84      0.51      0.63       483
+  Hotel-NoOffer       0.13      0.25      0.17        12
+Hotel-Recommend       0.19      0.50      0.28        16
+  Hotel-Request       0.21      0.33      0.26        90
+   Hotel-Select       0.00      0.00      0.00         6
+
+       accuracy                           0.47       700
+      macro avg       0.20      0.29      0.22       700
+   weighted avg       0.64      0.47      0.52       700

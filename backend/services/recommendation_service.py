@@ -6,6 +6,8 @@ import joblib
 import numpy as np
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
+from services.review_feedback_action_service import review_feedback_action_service
+from services.hotel_dialogue_action_service import hotel_dialogue_action_service
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -208,7 +210,19 @@ class RecommendationService:
         }
 
     def _recommend_staff_actions(self, guest, preferences, purpose_context):
-        """Rank staff actions with the trained multi-label recommendation model."""
+        """Rank actions using real review-NLP risks and guest relevance."""
+        dialogue_actions = hotel_dialogue_action_service.recommend(
+            guest, preferences, purpose_context.get("purpose", "Leisure")
+        )
+        if dialogue_actions:
+            return dialogue_actions
+        feedback_actions = review_feedback_action_service.recommend(
+            guest, preferences, purpose_context.get("purpose", "Leisure")
+        )
+        if feedback_actions:
+            return feedback_actions
+
+        """Legacy fallback if real feedback intelligence has not been trained."""
         if not self.staff_action_model:
             return {
                 "source": "Fallback staff guidance",

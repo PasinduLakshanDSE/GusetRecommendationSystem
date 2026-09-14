@@ -1,0 +1,15 @@
+{
+  "dataset": "Booking.com Hotel_Reviews.csv (real guest feedback)",
+  "totalRowsUsed": 100000,
+  "trainingRows": 80000,
+  "testRows": 20000,
+  "algorithm": "TF-IDF (1-2 grams) + Logistic Regression",
+  "accuracy": 0.7073,
+  "macroF1": 0.6347,
+  "weightedF1": 0.7188,
+  "classDistribution": {
+    "Positive": 63704,
+    "Neutral": 27528,
+    "Negative": 8768
+  }
+}

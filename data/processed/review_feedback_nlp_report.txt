@@ -1,0 +1,39 @@
+REAL HOTEL REVIEW NLP TRAINING REPORT
+
+{
+  "dataset": "Booking.com Hotel_Reviews.csv (real guest feedback)",
+  "totalRowsUsed": 100000,
+  "trainingRows": 80000,
+  "testRows": 20000,
+  "algorithm": "TF-IDF (1-2 grams) + Logistic Regression",
+  "accuracy": 0.7073,
+  "macroF1": 0.6347,
+  "weightedF1": 0.7188,
+  "classDistribution": {
+    "Positive": 63704,
+    "Neutral": 27528,
+    "Negative": 8768
+  }
+}
+
+CLASSIFICATION REPORT
+              precision    recall  f1-score   support
+
+    Negative       0.45      0.69      0.55      1754
+     Neutral       0.51      0.57      0.54      5505
+    Positive       0.88      0.77      0.82     12741
+
+    accuracy                           0.71     20000
+   macro avg       0.61      0.68      0.63     20000
+weighted avg       0.74      0.71      0.72     20000
+
+
+NEGATIVE FEEDBACK ASPECTS
+- Room: 5,403 mentions (61.62%)
+- Staff service: 3,141 mentions (35.82%)
+- Food: 1,561 mentions (17.8%)
+- Value: 1,325 mentions (15.11%)
+- Cleanliness: 1,052 mentions (12.0%)
+- Facilities: 1,030 mentions (11.75%)
+- Location: 652 mentions (7.44%)
+- Wellness: 187 mentions (2.13%)

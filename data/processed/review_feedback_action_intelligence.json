@@ -1,0 +1,107 @@
+{
+  "source": "Booking.com Hotel_Reviews.csv (real guest feedback)",
+  "model": "TF-IDF (1-2 grams) + Logistic Regression",
+  "aspects": [
+    {
+      "aspect": "Room",
+      "negativeMentions": 5403,
+      "negativeMentionRate": 61.62,
+      "keywords": [
+        "room",
+        "bed",
+        "bathroom",
+        "shower",
+        "air conditioning",
+        "noise"
+      ]
+    },
+    {
+      "aspect": "Staff service",
+      "negativeMentions": 3141,
+      "negativeMentionRate": 35.82,
+      "keywords": [
+        "staff",
+        "service",
+        "reception",
+        "check in",
+        "checkout",
+        "manager"
+      ]
+    },
+    {
+      "aspect": "Food",
+      "negativeMentions": 1561,
+      "negativeMentionRate": 17.8,
+      "keywords": [
+        "food",
+        "breakfast",
+        "restaurant",
+        "dinner",
+        "buffet",
+        "meal"
+      ]
+    },
+    {
+      "aspect": "Value",
+      "negativeMentions": 1325,
+      "negativeMentionRate": 15.11,
+      "keywords": [
+        "price",
+        "value",
+        "money",
+        "cost",
+        "expensive"
+      ]
+    },
+    {
+      "aspect": "Cleanliness",
+      "negativeMentions": 1052,
+      "negativeMentionRate": 12.0,
+      "keywords": [
+        "clean",
+        "dirty",
+        "dust",
+        "hygiene"
+      ]
+    },
+    {
+      "aspect": "Facilities",
+      "negativeMentions": 1030,
+      "negativeMentionRate": 11.75,
+      "keywords": [
+        "wifi",
+        "wi fi",
+        "internet",
+        "parking",
+        "lift",
+        "elevator",
+        "pool"
+      ]
+    },
+    {
+      "aspect": "Location",
+      "negativeMentions": 652,
+      "negativeMentionRate": 7.44,
+      "keywords": [
+        "location",
+        "distance",
+        "area",
+        "station",
+        "transport"
+      ]
+    },
+    {
+      "aspect": "Wellness",
+      "negativeMentions": 187,
+      "negativeMentionRate": 2.13,
+      "keywords": [
+        "spa",
+        "massage",
+        "wellness",
+        "gym",
+        "sauna",
+        "relax"
+      ]
+    }
+  ]
+}
