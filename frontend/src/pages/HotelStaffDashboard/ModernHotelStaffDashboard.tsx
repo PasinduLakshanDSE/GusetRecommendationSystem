@@ -47,7 +47,7 @@ type HotelIntelligence = {
 const navigationItems: NavigationItem[] = [
   { label: "Dashboard", icon: LayoutDashboard },
   { label: "Guest Details", icon: ClipboardCheck },
- // { label: "Guest Profile", icon: UserRound },
+  // { label: "Guest Profile", icon: UserRound },
   { label: "Preference Analysis", icon: BrainCircuit },
   { label: "Recommendations", icon: Sparkles },
   { label: "Booking Risk", icon: ShieldAlert },
@@ -490,15 +490,7 @@ export default function ModernHotelStaffDashboard() {
                   plan.
                 </p>
               </div>
-              <button
-                type="button"
-                onClick={() => {
-                  setSearch("");
-                  setOnlyPending(false);
-                }}
-              >
-                View all <ChevronRight size={17} />
-              </button>
+             
             </div>
             <label className="guest-search">
               <Search size={18} />
@@ -523,11 +515,11 @@ export default function ModernHotelStaffDashboard() {
                 <span>Status</span>
                 <span />
               </div>
-              {filteredGuests.map((guest) => (
+              {filteredGuests.slice(0, 5).map((guest) => (
                 <article
                   className="guest-row"
                   key={guest._id}
-                  onClick={() => setSelectedGuest(guest)}
+                  onClick={() => navigate(`/guest-details/${guest._id}`)}
                 >
                   <div className="guest-identity">
                     <b>
@@ -578,6 +570,15 @@ export default function ModernHotelStaffDashboard() {
                 </p>
               )}
             </div>
+            {filteredGuests.length > 5 && (
+              <button
+                type="button"
+                className="guest-list-more"
+                onClick={() => navigate("/guest-review-queue")}
+              >
+                See more guest details <ArrowRight size={16} />
+              </button>
+            )}
           </article>
 
           <aside className="side-panels">
