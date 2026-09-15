@@ -82,4 +82,27 @@ async function updateBookingStatus(request, response) {
   response.json(guest);
 }
 
-module.exports = { createGuest, listGuests, getNotifications, getGuest, updateBookingStatus };
+async function updateStaffActions(request, response) {
+  const actions = request.body.staffActionProgress;
+  if (!Array.isArray(actions)) {
+    return response.status(400).json({ error: "staffActionProgress must be an array" });
+  }
+
+  const allowedStatuses = ["Pending", "Approved", "In progress", "Completed", "Rejected"];
+  const validActions = actions.every((item) =>
+    item && typeof item.action === "string" && allowedStatuses.includes(item.status || "Pending"),
+  );
+  if (!validActions) {
+    return response.status(400).json({ error: "One or more staff actions are invalid" });
+  }
+
+  const guest = await Guest.findByIdAndUpdate(
+    request.params.id,
+    { staffActionProgress: actions },
+    { new: true, runValidators: true },
+  );
+  if (!guest) return response.status(404).json({ error: "Guest not found" });
+  response.json(guest);
+}
+
+module.exports = { createGuest, listGuests, getNotifications, getGuest, updateBookingStatus, updateStaffActions };

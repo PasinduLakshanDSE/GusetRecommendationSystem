@@ -218,6 +218,7 @@ export default function ModernHotelStaffDashboard() {
     setIsSidebarOpen(false);
     if (label === "Dashboard") return navigate("/Hotelstaffdashboard");
     if (label === "Guest Details") return navigate("/guest-review-queue");
+    if (label === "Recommendation History") return navigate("/recommendation-history");
     if (label === "User Management") return navigate("/user-management");
     if (label === "Booking Risk") setOnlyPending(true);
     if (label === "Review Intelligence") {

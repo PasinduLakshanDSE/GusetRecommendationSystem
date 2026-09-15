@@ -27,6 +27,10 @@ const guestSchema = new mongoose.Schema(
     },
     status: { type: String, default: "Ready to review" },
     notificationRead: { type: Boolean, default: false },
+    staffActionProgress: {
+      type: [mongoose.Schema.Types.Mixed],
+      default: [],
+    },
   },
   { timestamps: true },
 );
