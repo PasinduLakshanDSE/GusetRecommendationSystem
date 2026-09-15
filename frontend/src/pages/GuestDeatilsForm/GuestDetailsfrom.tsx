@@ -206,7 +206,13 @@ export default function GuestDetailsfrom() {
         status: guest.status,
         analysis: guest.aiAnalysis,
       }));
-      navigate("/Hotelstaffdashboard");
+      navigate(`/thank-you/${guest._id}`, {
+        state: {
+          name: guest.fullName,
+          arrivalDate: guest.arrivalDate,
+          district: guest.district,
+        },
+      });
     } catch (error) {
       alert(error instanceof Error ? error.message : "Unable to contact the server.");
     } finally {

@@ -15,6 +15,7 @@ import ForgotPasswordPage from "./pages/ForgotPasswordPage/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ForgotPasswordPage/ResetPasswordPage";
 import GuestReviewQueuePage from "./pages/GuestReviewQueuePage/GuestReviewQueuePage";
 import RecommendationHistoryPage from "./pages/RecommendationHistoryPage/RecommendationHistoryPage";
+import GuestThankYouPage from "./pages/GuestThankYouPage/GuestThankYouPage";
 //import GuestDetailsPage from "./pages/GuestDetailsPage/GuestDetailsPage";
 
 export default function App() {
@@ -26,6 +27,7 @@ export default function App() {
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
         <Route path="/GuestDetailsForm" element={<GuestDetailsfrom />} />
+        <Route path="/thank-you/:id" element={<GuestThankYouPage />} />
         <Route element={<ProtectedRoute />}>
         <Route path="/Hotelstaffdashboard" element={<ModernHotelStaffDashboard />} />
         <Route path="/SideBar" element={<ModernHotelStaffDashboard />} />
