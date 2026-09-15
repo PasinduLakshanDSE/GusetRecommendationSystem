@@ -11,6 +11,8 @@ import PreferenceAnalysisPage from "./pages/PreferenceAnalysisPage/AdvancedPrefe
 import LoginPage from "./pages/LoginPage/LoginPage";
 import UserManagementPage from "./pages/UserManagementPage/UserManagementPage";
 import ProtectedRoute from "./components/ProtectedRoute";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage/ForgotPasswordPage";
+import ResetPasswordPage from "./pages/ForgotPasswordPage/ResetPasswordPage";
 //import GuestDetailsPage from "./pages/GuestDetailsPage/GuestDetailsPage";
 
 export default function App() {
@@ -19,6 +21,8 @@ export default function App() {
       <Routes>
         <Route path="/" element={<LoginPage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
         <Route path="/GuestDetailsForm" element={<GuestDetailsfrom />} />
         <Route element={<ProtectedRoute />}>
         <Route path="/Hotelstaffdashboard" element={<ModernHotelStaffDashboard />} />

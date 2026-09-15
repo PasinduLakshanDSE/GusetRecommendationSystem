@@ -308,3 +308,17 @@
     grid-template-columns: 1fr;
   }
 }
+
+.forgot-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 34px;
+  color: #007d6e;
+  font-size: 12px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.success-message { color: #087366; background: #eaf7f3; }
+.local-reset-link { display: block; margin: -5px 0 15px; color: #007b6d; font-size: 12px; font-weight: 800; text-decoration: none; }

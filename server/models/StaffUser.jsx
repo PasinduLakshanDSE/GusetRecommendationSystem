@@ -9,6 +9,8 @@ const staffUserSchema = new mongoose.Schema(
     department: { type: String, default: "Guest Services", trim: true },
     active: { type: Boolean, default: true },
     lastLoginAt: Date,
+    passwordResetTokenHash: String,
+    passwordResetExpiresAt: Date,
   },
   { timestamps: true },
 );

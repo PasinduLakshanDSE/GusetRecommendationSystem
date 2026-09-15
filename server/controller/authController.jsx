@@ -1,6 +1,8 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
 const StaffUser = require("../models/StaffUser.jsx");
+const { sendPasswordResetEmail } = require("../config/mailer.jsx");
 
 const publicUser = (user) => ({
   id: user._id,
@@ -51,4 +53,37 @@ async function currentUser(request, response) {
   response.json({ user: publicUser(user) });
 }
 
-module.exports = { setupStatus, bootstrapAdmin, login, currentUser, publicUser, validPassword };
+async function requestPasswordReset(request, response) {
+  const email = String(request.body.email || "").trim().toLowerCase();
+  const user = await StaffUser.findOne({ email });
+  const message = "If that active staff account exists, a password reset link has been created.";
+  if (!user || !user.active) return response.json({ message });
+  const token = crypto.randomBytes(32).toString("hex");
+  user.passwordResetTokenHash = crypto.createHash("sha256").update(token).digest("hex");
+  user.passwordResetExpiresAt = new Date(Date.now() + 15 * 60 * 1000);
+  await user.save();
+  try {
+    await sendPasswordResetEmail({ to: user.email, fullName: user.fullName, resetUrl: `${process.env.APP_URL || "http://localhost:5173"}/reset-password/${token}` });
+    response.json({ message });
+  } catch (error) {
+    user.passwordResetTokenHash = undefined;
+    user.passwordResetExpiresAt = undefined;
+    await user.save();
+    response.status(503).json({ error: error.message || "Password reset email could not be sent." });
+  }
+}
+
+async function resetPassword(request, response) {
+  const { password } = request.body;
+  if (!validPassword(password)) return response.status(400).json({ error: "Use a password with at least 8 characters." });
+  const tokenHash = crypto.createHash("sha256").update(request.params.token).digest("hex");
+  const user = await StaffUser.findOne({ passwordResetTokenHash: tokenHash, passwordResetExpiresAt: { $gt: new Date() } });
+  if (!user) return response.status(400).json({ error: "This password reset link is invalid or has expired." });
+  user.passwordHash = await bcrypt.hash(password, 12);
+  user.passwordResetTokenHash = undefined;
+  user.passwordResetExpiresAt = undefined;
+  await user.save();
+  response.json({ message: "Password updated. You can now sign in." });
+}
+
+module.exports = { setupStatus, bootstrapAdmin, login, currentUser, requestPasswordReset, resetPassword, publicUser, validPassword };

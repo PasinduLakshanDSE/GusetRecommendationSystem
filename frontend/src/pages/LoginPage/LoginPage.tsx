@@ -71,7 +71,7 @@ export default function LoginPage() {
               <span>Password</span>
               <div><LockKeyhole size={18} /><input type={showPassword ? "text" : "password"} value={password} onChange={(event) => setPassword(event.target.value)} placeholder="Enter your password" autoComplete="current-password" /><button type="button" onClick={() => setShowPassword((current) => !current)} aria-label={showPassword ? "Hide password" : "Show password"}>{showPassword ? <EyeOff size={18} /> : <Eye size={18} />}</button></div>
             </label>
-            <div className="login-options"><label><input type="checkbox" /> Remember me</label><button type="button" onClick={() => setError("Password reset will be connected when staff authentication is added.")}>Forgot password?</button></div>
+            <div className="login-options"><label><input type="checkbox" /> Remember me</label><button type="button" onClick={() => navigate("/forgot-password")}>Forgot password?</button></div>
             {error && <p className="login-error" role="alert">{error}</p>}
             <button className="login-submit" type="submit" disabled={isLoading}>{isLoading ? "Please wait..." : <>{needsSetup ? "Create administrator" : "Sign in to staff portal"} <ArrowRight size={18} /></>}</button>
           </form>
