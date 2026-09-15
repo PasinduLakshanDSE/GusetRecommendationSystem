@@ -5,12 +5,24 @@
   color: #12344d;
   font-family: Arial, sans-serif;
 }
-.guest-detail-page header > a {
+.guest-detail-navigation {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+.guest-detail-navigation > a {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 10px;
+  border: 1px solid #d8e7eb;
+  border-radius: 9px;
+  background: #fff;
   color: #008579;
   font-size: 13px;
   font-weight: 700;
   text-decoration: none;
 }
+.guest-detail-navigation > a:last-child { color: #315e84; background: #f5f9fd; border-color: #d8e6f2; }
 .guest-detail-page header > span {
   display: block;
   margin-top: 35px;
@@ -234,6 +246,7 @@
   .guest-detail-page {
     padding: 30px 18px;
   }
+  .guest-detail-navigation { flex-wrap: wrap; }
   .booking-risk-card {
     grid-template-columns: 1fr;
   }

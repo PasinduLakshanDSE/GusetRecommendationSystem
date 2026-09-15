@@ -13,6 +13,7 @@ import UserManagementPage from "./pages/UserManagementPage/UserManagementPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ForgotPasswordPage/ResetPasswordPage";
+import GuestReviewQueuePage from "./pages/GuestReviewQueuePage/GuestReviewQueuePage";
 //import GuestDetailsPage from "./pages/GuestDetailsPage/GuestDetailsPage";
 
 export default function App() {
@@ -30,6 +31,7 @@ export default function App() {
         <Route path="/guest-profile/:id" element={<GuestProfilePage />} />
         <Route path="/guest-details/:id" element={<GuestDetailsDisplayPage />} />
         <Route path="/preference-analysis/:id" element={<PreferenceAnalysisPage />} />
+        <Route path="/guest-review-queue" element={<GuestReviewQueuePage />} />
         </Route>
         <Route element={<ProtectedRoute adminOnly />}><Route path="/user-management" element={<UserManagementPage />} /></Route>
       </Routes>
