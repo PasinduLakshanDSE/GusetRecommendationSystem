@@ -1,5 +1,6 @@
 const Guest = require("../models/Guest.jsx");
 const { analyzeGuest } = require("../services/flaskAiService.jsx");
+const { getPublicSettings } = require("./portalSettingsController.jsx");
 
 async function createGuest(request, response) {
   try {
@@ -43,7 +44,14 @@ async function createGuest(request, response) {
       matchMethods: Array.from(matchMethods),
     };
 
-    guest.aiAnalysis = await analyzeGuest(guest, bookingHistory);
+    const portalSettings = await getPublicSettings();
+    guest.aiAnalysis = portalSettings.aiAutoAnalysis
+      ? await analyzeGuest(guest, bookingHistory)
+      : { status: "Disabled by hotel administrator", staffActionPlan: { source: "AI auto-analysis is currently disabled", actions: [] } };
+    if (portalSettings.aiAutoAnalysis && !portalSettings.aiStaffActions) {
+      guest.aiAnalysis.staffActionPlan = { source: "AI staff action plans are disabled by hotel administrator", actions: [] };
+      if (guest.aiAnalysis.purposeContext) guest.aiAnalysis.purposeContext.staffActions = [];
+    }
     await guest.save();
     response.status(201).json(guest);
   } catch (error) {

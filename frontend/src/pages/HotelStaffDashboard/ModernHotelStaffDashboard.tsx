@@ -15,7 +15,6 @@ import {
   Menu,
   Search,
   Settings,
-  ShieldAlert,
   Sparkles,
   UserRound,
   UsersRound,
@@ -25,7 +24,7 @@ import {
 } from "lucide-react";
 
 import "./modernHotelStaffDashboard.css";
-import { clearSession, getSession } from "../../auth";
+import { authHeaders, clearSession, getSession } from "../../auth";
 
 type NavigationItem = {
   label: string;
@@ -43,6 +42,7 @@ type HotelIntelligence = {
   }[];
   alerts?: { aspect: string; message: string }[];
 };
+type PortalSettings = { hotelName?: string; timezone?: string; newGuestAlerts?: boolean; riskAlerts?: boolean; dailySummary?: boolean };
 
 const navigationItems: NavigationItem[] = [
   { label: "Dashboard", icon: LayoutDashboard },
@@ -83,6 +83,7 @@ export default function ModernHotelStaffDashboard() {
   const [databaseGuests, setDatabaseGuests] = useState<any[]>([]);
   const [hotelIntelligence, setHotelIntelligence] =
     useState<HotelIntelligence | null>(null);
+  const [portalSettings, setPortalSettings] = useState<PortalSettings | null>(null);
   const [selectedGuest, setSelectedGuest] = useState<any>(null);
   const [showNotifications, setShowNotifications] = useState(false);
   const [onlyPending, setOnlyPending] = useState(false);
@@ -95,6 +96,12 @@ export default function ModernHotelStaffDashboard() {
       .catch(() => setDatabaseGuests([]));
   }, []);
   useEffect(() => {
+    fetch("http://localhost:8000/api/settings", { headers: authHeaders() })
+      .then((response) => (response.ok ? response.json() : null))
+      .then(setPortalSettings)
+      .catch(() => setPortalSettings(null));
+  }, []);
+  useEffect(() => {
     fetch("http://localhost:8000/api/hotel-intelligence")
       .then((response) => (response.ok ? response.json() : null))
       .then(setHotelIntelligence)
@@ -103,6 +110,8 @@ export default function ModernHotelStaffDashboard() {
   const pendingGuests = databaseGuests.filter(
     (guest) => getBookingLifecycle(guest) === "Pending",
   );
+  const notificationGuests = portalSettings?.newGuestAlerts === false ? [] : pendingGuests;
+  const riskAlertsEnabled = portalSettings?.riskAlerts !== false;
   const filteredGuests = useMemo(() => {
     const query = search.trim().toLowerCase();
     return databaseGuests.filter((guest) => {
@@ -158,12 +167,8 @@ export default function ModernHotelStaffDashboard() {
     },
     {
       label: "Arrival risk alerts",
-      value: String(
-        databaseGuests.filter(
-          (guest) => (guest.aiAnalysis?.bookingRisk?.probability || 0) >= 28,
-        ).length,
-      ),
-      detail: "Bookings needing follow-up",
+      value: riskAlertsEnabled ? String(databaseGuests.filter((guest) => (guest.aiAnalysis?.bookingRisk?.probability || 0) >= 28).length) : "Off",
+      detail: riskAlertsEnabled ? "Bookings needing follow-up" : "Risk alerts disabled",
       icon: CircleAlert,
       tone: "violet",
     },
@@ -206,11 +211,8 @@ export default function ModernHotelStaffDashboard() {
       chart: `conic-gradient(${chart.join(", ")}, #eaf1f0 0)`,
     };
   }, [databaseGuests, pendingGuests.length]);
-  const today = new Date().toLocaleDateString(undefined, {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
+  const timeZone = portalSettings?.timezone?.startsWith("Asia/Singapore") ? "Asia/Singapore" : portalSettings?.timezone?.startsWith("Europe/London") ? "Europe/London" : "Asia/Colombo";
+  const today = new Intl.DateTimeFormat(undefined, { timeZone, day: "numeric", month: "long", year: "numeric" }).format(new Date());
   const openQueue = () =>
     queueRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   const handleNavigation = (label: string) => {
@@ -227,7 +229,7 @@ export default function ModernHotelStaffDashboard() {
         ?.scrollIntoView({ behavior: "smooth", block: "start" });
       return;
     }
-    if (label === "Settings") return;
+    if (label === "Settings") return navigate("/settings");
     openQueue();
   };
 
@@ -315,7 +317,7 @@ export default function ModernHotelStaffDashboard() {
               <Menu size={22} />
             </button>
             <div>
-              <span>Hotel staff portal</span>
+              <span>{portalSettings?.hotelName || "Hotel staff portal"}</span>
               <h1>Guest Experience Dashboard</h1>
               <p>
                 Review guest preferences and approve AI service recommendations.
@@ -330,7 +332,7 @@ export default function ModernHotelStaffDashboard() {
               onClick={() => setShowNotifications((open) => !open)}
             >
               <Bell size={19} />
-              <b>{pendingGuests.length}</b>
+              <b>{notificationGuests.length}</b>
             </button>
             <div className="date-card">
               <small>Today</small>
@@ -341,7 +343,7 @@ export default function ModernHotelStaffDashboard() {
         {showNotifications && (
           <section className="dashboard-notifications">
             <b>Guest attention queue</b>
-            {pendingGuests.slice(0, 4).map((guest) => (
+            {notificationGuests.slice(0, 4).map((guest) => (
               <button
                 key={guest._id}
                 type="button"
@@ -351,9 +353,14 @@ export default function ModernHotelStaffDashboard() {
                 <small>{guest.status || "New guest profile"}</small>
               </button>
             ))}
-            {!pendingGuests.length && (
-              <small>There are no pending guest notifications.</small>
+            {!notificationGuests.length && (
+              <small>{portalSettings?.newGuestAlerts === false ? "New guest alerts are disabled in Settings." : "There are no pending guest notifications."}</small>
             )}
+          </section>
+        )}
+        {portalSettings?.dailySummary && (
+          <section className="daily-summary-banner">
+            <Sparkles size={17} /> <span><b>Daily operations summary:</b> {pendingGuests.length} profiles await review, {dashboardAnalytics.aiReady} have AI analysis ready, and {dashboardAnalytics.atRisk} booking-risk alerts need attention.</span>
           </section>
         )}
 

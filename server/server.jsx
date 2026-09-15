@@ -7,6 +7,7 @@ const connectDatabase = require("./config/database.jsx");
 const guestRoutes = require("./routes/guestRoute.jsx");
 const authRoutes = require("./routes/authRoute.jsx");
 const staffUserRoutes = require("./routes/staffUserRoute.jsx");
+const portalSettingsRoutes = require("./routes/portalSettingsRoute.jsx");
 
 const app = express();
 
@@ -17,6 +18,7 @@ connectDatabase();
 app.use("/api/guests", guestRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/staff-users", staffUserRoutes);
+app.use("/api/settings", portalSettingsRoutes);
 
 app.get("/api/hotel-intelligence", async (request, response) => {
   try {

@@ -16,6 +16,7 @@ import ResetPasswordPage from "./pages/ForgotPasswordPage/ResetPasswordPage";
 import GuestReviewQueuePage from "./pages/GuestReviewQueuePage/GuestReviewQueuePage";
 import RecommendationHistoryPage from "./pages/RecommendationHistoryPage/RecommendationHistoryPage";
 import GuestThankYouPage from "./pages/GuestThankYouPage/GuestThankYouPage";
+import SettingsPage from "./pages/SettingsPage/SettingsPage";
 //import GuestDetailsPage from "./pages/GuestDetailsPage/GuestDetailsPage";
 
 export default function App() {
@@ -36,6 +37,7 @@ export default function App() {
         <Route path="/preference-analysis/:id" element={<PreferenceAnalysisPage />} />
         <Route path="/guest-review-queue" element={<GuestReviewQueuePage />} />
         <Route path="/recommendation-history" element={<RecommendationHistoryPage />} />
+        <Route path="/settings" element={<SettingsPage />} />
         </Route>
         <Route element={<ProtectedRoute adminOnly />}><Route path="/user-management" element={<UserManagementPage />} /></Route>
       </Routes>
