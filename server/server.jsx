@@ -5,6 +5,8 @@ require("dotenv").config();
 
 const connectDatabase = require("./config/database.jsx");
 const guestRoutes = require("./routes/guestRoute.jsx");
+const authRoutes = require("./routes/authRoute.jsx");
+const staffUserRoutes = require("./routes/staffUserRoute.jsx");
 
 const app = express();
 
@@ -13,6 +15,8 @@ app.use(express.json({ limit: "10mb" }));
 
 connectDatabase();
 app.use("/api/guests", guestRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/staff-users", staffUserRoutes);
 
 app.get("/api/hotel-intelligence", async (request, response) => {
   try {

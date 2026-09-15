@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+/*import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Compass, Sparkles } from "lucide-react";
 import "./preferenceAnalysisPage.css";
@@ -152,4 +152,4 @@ export default function PreferenceAnalysisPage() {
       </section>
     </main>
   );
-}
+}*/

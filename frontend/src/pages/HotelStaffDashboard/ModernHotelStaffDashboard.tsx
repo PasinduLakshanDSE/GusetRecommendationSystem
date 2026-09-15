@@ -18,14 +18,18 @@ import {
   Sparkles,
   UserRound,
   UsersRound,
+  UserCog,
+  LogOut,
   X,
 } from "lucide-react";
 
 import "./modernHotelStaffDashboard.css";
+import { clearSession, getSession } from "../../auth";
 
 type NavigationItem = {
   label: string;
   icon: LucideIcon;
+  adminOnly?: boolean;
 };
 type HotelIntelligence = {
   source?: string;
@@ -43,40 +47,9 @@ const navigationItems: NavigationItem[] = [
   { label: "Review Intelligence", icon: Compass },
   { label: "Recommendation History", icon: CalendarClock },
   { label: "Settings", icon: Settings },
+  { label: "User Management", icon: UserCog, adminOnly: true },
 ];
 
-const guests = [
-  {
-    initials: "MP",
-    name: "Maya Perera",
-    detail: "Sri Lanka · Family · 2 children",
-    room: "Garden Suite",
-    budget: "High budget",
-    recommendation: "Family adventure",
-    status: "Ready to review",
-    tone: "ready",
-  },
-  {
-    initials: "DC",
-    name: "Daniel Chen",
-    detail: "Australia · Solo traveller",
-    room: "Mountain View",
-    budget: "Medium budget",
-    recommendation: "Wellness escape",
-    status: "Approved",
-    tone: "approved",
-  },
-  {
-    initials: "EW",
-    name: "Emma Williams",
-    detail: "United Kingdom · Couple",
-    room: "Ocean View",
-    budget: "Luxury budget",
-    recommendation: "Honeymoon package",
-    status: "Pending review",
-    tone: "pending",
-  },
-];
 
 const arrivals = [
   { time: "10:30", name: "Maya Perera", detail: "Family suite ready" },
@@ -87,9 +60,10 @@ const arrivals = [
 export default function ModernHotelStaffDashboard() {
   // Legacy mock data remains only as a design reference; all visible dashboard
   // values below are calculated from the backend guest API.
-  void guests;
+  
   void arrivals;
   const navigate = useNavigate();
+  const staffSession = getSession();
   const [activeNavigation, setActiveNavigation] = useState("Dashboard");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [search, setSearch] = useState("");
@@ -135,6 +109,7 @@ export default function ModernHotelStaffDashboard() {
     setActiveNavigation(label);
     setIsSidebarOpen(false);
     if (label === "Dashboard") return navigate("/Hotelstaffdashboard");
+    if (label === "User Management") return navigate("/user-management");
     if (label === "Booking Risk") setOnlyPending(true);
     if (label === "Review Intelligence") {
       document.querySelector(".review-intelligence-panel")?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -166,7 +141,7 @@ export default function ModernHotelStaffDashboard() {
         </div>
 
         <nav className="hotel-nav">
-          {navigationItems.map((item) => {
+          {navigationItems.filter((item) => !item.adminOnly || staffSession?.user.role === "admin").map((item) => {
             const Icon = item.icon;
             return (
               <button
@@ -190,6 +165,7 @@ export default function ModernHotelStaffDashboard() {
             AI Engine Online
           </span>
           <p>Hybrid intelligence workspace</p>
+          <button type="button" className="sidebar-signout" onClick={() => { clearSession(); navigate("/login"); }}><LogOut size={15} /> Sign out</button>
         </div>
       </aside>
 

@@ -119,6 +119,22 @@
   color: #9cb8d1;
   font-size: 13px;
 }
+
+.sidebar-signout {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 15px;
+  padding: 7px 0;
+  border: 0;
+  color: #a9c6d6;
+  background: transparent;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.sidebar-signout:hover { color: #fff; }
 .hotel-content {
   width: calc(100% - 282px);
   margin-left: 282px;
