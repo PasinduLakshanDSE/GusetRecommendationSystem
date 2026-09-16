@@ -1,6 +1,6 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowRight, Building2, Eye, EyeOff, LockKeyhole, Mail, ShieldCheck, Sparkles } from "lucide-react";
+import { ArrowRight, BrainCircuit, Building2, Eye, EyeOff, LockKeyhole, Mail, ShieldCheck, Sparkles } from "lucide-react";
 import { saveSession } from "../../auth";
 import "./loginPage.css";
 
@@ -37,7 +37,9 @@ export default function LoginPage() {
     <main className="staff-login-page">
       <section className="login-story-panel">
         <div className="login-brand">
-          <span><Sparkles size={22} /></span>
+          
+            <BrainCircuit size={24} />
+          
           <div><b>GuestAI</b><small>Hospitality Intelligence</small></div>
         </div>
         <div className="login-story-copy">

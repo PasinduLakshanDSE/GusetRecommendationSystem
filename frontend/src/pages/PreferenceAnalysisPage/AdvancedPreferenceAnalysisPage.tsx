@@ -177,7 +177,7 @@ export default function AdvancedPreferenceAnalysisPage() {
       <aside className="analysis-sidebar">
         <div className="analysis-brand">
           <span>
-            <Sparkles size={20} />
+             <BrainCircuit size={24} />
           </span>
           <div>
             <b>GuestAI</b>

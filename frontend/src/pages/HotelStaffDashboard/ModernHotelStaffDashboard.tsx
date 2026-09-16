@@ -53,8 +53,9 @@ const navigationItems: NavigationItem[] = [
   //{ label: "Booking Risk", icon: ShieldAlert },
   //{ label: "Review Intelligence", icon: Compass },
   { label: "Recommendation History", icon: CalendarClock },
-  { label: "Settings", icon: Settings },
+  
   { label: "User Management", icon: UserCog, adminOnly: true },
+  { label: "Settings", icon: Settings },
 ];
 
 const arrivals = [
