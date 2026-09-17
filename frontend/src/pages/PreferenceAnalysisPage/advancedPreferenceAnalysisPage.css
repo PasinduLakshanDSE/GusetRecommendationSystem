@@ -124,6 +124,33 @@
   font-size: 12px;
   font-weight: 800;
 }
+.analysis-topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.refresh-analysis-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border: 1px solid #cfe3df;
+  border-radius: 9px;
+  padding: 8px 11px;
+  color: #007e73;
+  background: #fff;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.refresh-analysis-button:hover:not(:disabled) {
+  color: #fff;
+  background: #008f82;
+  border-color: #008f82;
+}
+.refresh-analysis-button:disabled { cursor: wait; opacity: .68; }
+.spin { animation: analysis-spin .85s linear infinite; }
+@keyframes analysis-spin { to { transform: rotate(360deg); } }
 .analysis-hero {
   display: flex;
   justify-content: space-between;

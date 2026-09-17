@@ -76,6 +76,38 @@ async function getGuest(request, response) {
   response.json(guest);
 }
 
+async function refreshGuestAnalysis(request, response) {
+  try {
+    const guest = await Guest.findById(request.params.id);
+    if (!guest) return response.status(404).json({ error: "Guest not found" });
+
+    const portalSettings = await getPublicSettings();
+    if (!portalSettings.aiAutoAnalysis) {
+      return response.status(400).json({ error: "AI auto-analysis is disabled by the hotel administrator" });
+    }
+
+    // Reuse the saved guest form values. Booking history remains unchanged here;
+    // this endpoint is intended to refresh recommendations after AI improvements.
+    guest.aiAnalysis = await analyzeGuest(guest, {
+      repeatGuest: false,
+      previousBookings: 0,
+      previousCancellations: 0,
+      completedStays: 0,
+      matchMethods: [],
+    });
+    if (!portalSettings.aiStaffActions) {
+      guest.aiAnalysis.staffActionPlan = {
+        source: "AI staff action plans are disabled by hotel administrator",
+        actions: [],
+      };
+    }
+    await guest.save();
+    response.json(guest);
+  } catch (error) {
+    response.status(500).json({ error: error.message || "Unable to refresh AI analysis" });
+  }
+}
+
 async function updateBookingStatus(request, response) {
   const allowedStatuses = ["Pending", "Confirmed", "Completed", "Cancelled"];
   if (!allowedStatuses.includes(request.body.bookingStatus)) {
@@ -113,4 +145,4 @@ async function updateStaffActions(request, response) {
   response.json(guest);
 }
 
-module.exports = { createGuest, listGuests, getNotifications, getGuest, updateBookingStatus, updateStaffActions };
+module.exports = { createGuest, listGuests, getNotifications, getGuest, refreshGuestAnalysis, updateBookingStatus, updateStaffActions };

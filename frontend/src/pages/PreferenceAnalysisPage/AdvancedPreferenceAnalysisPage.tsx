@@ -14,6 +14,7 @@ import {
   ShieldAlert,
   Sparkles,
   Star,
+  RefreshCw,
   UtensilsCrossed,
   UsersRound,
   WandSparkles,
@@ -104,6 +105,7 @@ export default function AdvancedPreferenceAnalysisPage() {
   const { id } = useParams();
   const [guest, setGuest] = useState<Guest | null>(null);
   const [error, setError] = useState("");
+  const [isRefreshing, setIsRefreshing] = useState(false);
   useEffect(() => {
     fetch(`http://localhost:8000/api/guests/${id}`)
       .then(async (response) => {
@@ -113,6 +115,22 @@ export default function AdvancedPreferenceAnalysisPage() {
       .then(setGuest)
       .catch((requestError: Error) => setError(requestError.message));
   }, [id]);
+  const refreshAnalysis = async () => {
+    if (!id) return;
+    setIsRefreshing(true);
+    setError("");
+    try {
+      const response = await fetch(`http://localhost:8000/api/guests/${id}/reanalyze`, {
+        method: "POST",
+      });
+      if (!response.ok) throw new Error("AI analysis could not be refreshed.");
+      setGuest(await response.json());
+    } catch (requestError) {
+      setError(requestError instanceof Error ? requestError.message : "AI analysis could not be refreshed.");
+    } finally {
+      setIsRefreshing(false);
+    }
+  };
   const preferences = useMemo(() => {
     const savedProfile = guest?.aiAnalysis?.preferenceProfile;
     if (savedProfile?.length)
@@ -207,8 +225,14 @@ export default function AdvancedPreferenceAnalysisPage() {
           <Link to={`/guest-details/${id}`} className="back-link">
             <ArrowLeft size={16} /> Guest details
           </Link>
-          <div className="analysis-topbar-status">
-            <Sparkles size={15} /> AI analysis ready
+          <div className="analysis-topbar-actions">
+            <div className="analysis-topbar-status">
+              <Sparkles size={15} /> AI analysis ready
+            </div>
+            <button type="button" className="refresh-analysis-button" onClick={refreshAnalysis} disabled={isRefreshing}>
+              <RefreshCw size={14} className={isRefreshing ? "spin" : ""} />
+              {isRefreshing ? "Refreshing…" : "Refresh AI"}
+            </button>
           </div>
         </header>
         <section className="analysis-hero">

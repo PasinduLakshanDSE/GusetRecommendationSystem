@@ -26,12 +26,10 @@ class HotelDialogueActionService:
     def recommend(self, guest, preferences, purpose):
         profile = self._profile_text(guest, preferences, purpose)
         predicted = self._predicted_actions(profile)
-        actions = self._verified_actions(guest, preferences, purpose)
-        generated_reasons = self._generate_reasons_with_ollama(profile, actions, predicted)
-        if generated_reasons:
-            for index, reason in enumerate(generated_reasons):
-                actions[index]["reason"] = reason
-            source = f"Five validated actions selected from guest context and refined by local Ollama ({OLLAMA_MODEL})"
+        request_actions, ollama_request_used = self._extract_special_request_actions(guest, purpose)
+        actions = self._verified_actions(guest, preferences, purpose, request_actions)
+        if ollama_request_used:
+            source = f"Five validated actions using local Ollama request interpretation ({OLLAMA_MODEL}), preference AI, and hotel-review NLP"
         else:
             source = "Five validated actions selected from guest context, preference AI, and hotel-review NLP"
         return {
@@ -51,11 +49,61 @@ class HotelDialogueActionService:
             for index in indexes
         ]
 
-    def _verified_actions(self, guest, preferences, purpose):
+    def _extract_special_request_actions(self, guest, purpose):
+        """Ask Ollama to interpret arbitrary free-text requests into safe staff actions."""
+        request_text = str(guest.get("specialRequests") or "").strip()
+        if not request_text:
+            return [], False
+        prompt = (
+            "You extract hotel staff tasks from a guest's exact special request. "
+            "Create one or two concrete pre-arrival actions only when directly supported by the request. "
+            "Do not invent availability, bookings, room numbers, prices, destinations, or services. "
+            "Return JSON only: {\"actions\":[{\"action\":\"...\",\"reason\":\"...\"}]}.\n\n"
+            f"Visit purpose: {purpose}\nGuest special request: {request_text}"
+        )
+        payload = json.dumps({
+            "model": OLLAMA_MODEL,
+            "prompt": prompt,
+            "stream": False,
+            "format": "json",
+            "options": {"temperature": 0, "num_predict": 180},
+        }).encode("utf-8")
+        request = Request(OLLAMA_URL, data=payload, headers={"Content-Type": "application/json"}, method="POST")
+        try:
+            with urlopen(request, timeout=75) as response:
+                raw = json.loads(response.read().decode("utf-8"))
+            items = json.loads(raw.get("response", "{}")).get("actions", [])
+        except (URLError, TimeoutError, json.JSONDecodeError, OSError):
+            # The exact original request is still kept as a safe fallback.
+            return [{
+                "action": f"Review and confirm the guest request: {request_text}",
+                "reason": "The guest entered this request directly in the booking form.",
+                "match": 94,
+            }], False
+
+        extracted = []
+        for item in items if isinstance(items, list) else []:
+            if not isinstance(item, dict):
+                continue
+            action = str(item.get("action", "")).strip()
+            reason = str(item.get("reason", "")).strip()
+            if not action or not reason or len(action) > 150 or len(reason) > 240:
+                continue
+            extracted.append({"action": action, "reason": reason, "match": 94})
+            if len(extracted) == 2:
+                break
+        if extracted:
+            return extracted, True
+        return [{
+            "action": f"Review and confirm the guest request: {request_text}",
+            "reason": "The guest entered this request directly in the booking form.",
+            "match": 94,
+        }], False
+
+    def _verified_actions(self, guest, preferences, purpose, request_actions=None):
         """Create exactly five actions only from submitted guest facts."""
         purpose = str(purpose or guest.get("purposeOfVisit") or "Leisure").strip()
         purpose_key = purpose.lower()
-        requests = str(guest.get("specialRequests") or "").strip().lower()
         room = str(guest.get("roomPreference") or "").strip()
         food = str(guest.get("foodPreference") or "").strip()
         accessibility = str(guest.get("accessibilityNeeds") or "").strip()
@@ -71,15 +119,11 @@ class HotelDialogueActionService:
             if len(actions) < 5 and not any(item["action"] == action for item in actions):
                 actions.append({"action": action, "reason": reason, "match": match})
 
-        # Explicit guest requests take priority.
-        if any(word in requests for word in ("airport", "pickup", "transfer")):
-            add("Confirm the requested airport transfer or arrival transport", "The guest explicitly requested arrival transport support.", 94)
-        if any(word in requests for word in ("wifi", "wi-fi", "internet")) or "business" in purpose_key:
+        # Ollama reads the free-text request, including words not known in advance.
+        for item in request_actions or []:
+            add(item["action"], item["reason"], item.get("match", 94))
+        if "business" in purpose_key:
             add("Test high-speed Wi-Fi before check-in and share connection details", "Reliable connectivity is supported by the submitted business or Wi-Fi requirement.", 93 if "business" in purpose_key else 89)
-        if any(word in requests for word in ("meeting", "workspace", "work space", "desk")):
-            add("Confirm the requested workspace or meeting arrangement before arrival", "The guest specifically mentioned a workspace or meeting need.", 91)
-        if any(word in requests for word in ("quiet", "noise", "silent")):
-            add("Allocate the quietest suitable room and note the noise preference", "The special request asks for a quiet stay environment.", 89)
         if accessibility:
             add("Review accessibility requirements with the assigned arrival host", "Accessibility support was explicitly provided in the guest profile.", 96)
 
